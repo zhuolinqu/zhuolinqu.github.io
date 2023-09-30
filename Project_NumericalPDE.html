@@ -40,97 +40,151 @@
             <meta http-equiv="Content-Type" content="text/html;
               charset=UTF-8">
           </p>
-          <h2>Modeling malaria immunity<br>
+          <h2>Numerical methods for PDEs<br>
           </h2>
-          <p><span class="fontstyle0">Malaria is one of the deadliest
-              infectious diseases globally, causing hundreds of
-              thousands of deaths each year. It disproportionately
-              affects young children, with two-thirds of fatalities
-              occurring in under-fives. Individuals acquire protection
-              from disease through repeated exposure, and this immunity
-              plays a crucial role in the dynamics of malaria
-              spread.&nbsp; <br>
-              <br>
-            </span></p>
-          <h3>Age-structured PDE model: vector-host epidemiological
-            dynamics + immunity dynamics</h3>
-          <div align="center"><img moz-do-not-send="true"
-              src="pics/model_MRC.png" alt="" width="592" height="267"><br>
-            <div align="left">
-              <h5><b>Figure:</b> Schematic of the immuno-epidemiological
-                model that couples the human-mosquito transmission
-                dynamics with immunity dynamics. It also captures the
-                corresponding feedback on the epidemiological parameters
-                (in blue circles: rho, phi, psi).<br>
-              </h5>
-            </div>
-            <img moz-do-not-send="true" src="pics/Screenshot_8.png"
-              alt="" width="352" height="299"> &nbsp; &nbsp; &nbsp;
-            &nbsp; &nbsp; &nbsp; <img moz-do-not-send="true"
-              src="pics/Screenshot_9.png" alt="" width="356"
-              height="299"><br>
-            <div align="left">
-              <h5><b>Left:</b> The model characterized the heterogeneity
-                in immunity profiles, which depend on age and malaria
-                transmission level (aEIR) in the region. <b>Right</b>:
-                Preliminary case study of applying RTS,S vaccine in
-                Kenya. Vaccination lowers the severe disease cases
-                before 3 y.o. and slightly increases that number for
-                older ages.</h5>
-              <h3>Publication</h3>
-              <p>Zhuolin Qu*, Denis Patterson*, Lauren Childs, Christina
-                Edholm, Joan Ponce, Olivia Prosper, and Lihong Zhao<br>
-                <a moz-do-not-send="true"
-                  href="publications/Qu%20et%20al-malaria-SIAP.pdf">Modeling
-
-
-Immunity
-
-                  to Malaria with an Age-Structured PDE Framework</a>
-                *denotes equal contribution &nbsp;<i> <br>
-                  SIAM Journal on Applied Mathematics</i>, 83.3, (2023),
-                1098-1125.<br>
-              </p>
-              <p><a moz-do-not-send="true"
-                  href="presentations/2022_slides_malaria.pdf">Presentation
-
-                  Slides</a><br>
-              </p>
-            </div>
-          </div>
+          <p>While most of my recent research is on modeling
+            infectious diseases, I have extensive experience in
+            developing numerical methods for nonlinear PDEs. </p>
           <br>
+          <h3> Fast operator splitting methods for nonlinear PDEs</h3>
+          <p>The operator splitting methods are divide-and-conquer
+            strategies to solve the PDEs with operators of different
+            natures. The main idea is to decompose a complex equation
+            into simpler sub-equations, which provides great
+            flexibility in choosing different numerical methods for
+            each sub-problem.<br>
+            <br>
+          </p>
+          <h2>Phase Field Models</h2>
+          <p>Phase-field models are mathematical models for
+            interfacial phenomena. They were originally derived for
+            the microstructure evolution and phase transition, and
+            they have been extended to many other physical phenomena,
+            such as the growth of cancerous tumors, phase separation
+            of block copolymers, and dewetting and rupture of thin
+            liquid films.<br>
+            <br>
+          </p>
+          <p> The <b>molecular beam epitaxy</b> (MBE) equation with
+            slop selection $$ u_{t}=-\delta \Delta^{2} u+\nabla
+            \cdot\left(|\nabla u|^{2} \nabla u-\nabla u\right), \quad
+            \delta&gt;0.$$ The <b>Cahn-Hilliard</b> equation $$
+            u_{t}=-\delta \Delta^{2}
+            u+\Delta\left(u^{3}-u\right),&nbsp; \quad \delta&gt;0.$$ </p>
+          <div align="center"><img src="pics/Screenshot_2.png" alt=""
+              width="282" align="top" height="200">&nbsp;&nbsp; <img
+              src="pics/Screenshot_3.png" alt="" width="476" align="top"
+              height="200"></div>
+          <div align="left">
+            <h5><b>Left:</b> Thin film epitaxy (MBE equation): the
+              deposition of a crystalline overlayer on a crystalline
+              substrate. <b>Right:</b> Phase separation
+              (Cahn-Hilliard equation): two components of a binary
+              fluid spontaneously separate and form domains pure in
+              each component </h5>
+          </div>
+          <div align="center"><img src="pics/Screenshot_4.png" alt=""
+              width="526" align="top" height="200"><img
+              src="pics/Screenshot_5.png" alt="" width="234" align="top"
+              height="200"><br>
+          </div>
+          <h5 align="left"><b>Left and middle: </b>Solution of 2-D
+            MBE equation subject to a random initial data (uniformly
+            distribution). The pyramid edges form a random network
+            over the surface. The cells of the network grow in time
+            via a coarsening process. <b>Right: </b>The mean height
+            remains practically zero at all times, which verifies the
+            mass conservation of the numerical method.</h5>
+          <div align="center"><img src="pics/Screenshot_6.png" alt=""
+              height="150"><img src="pics/Screenshot_7.png" alt=""
+              height="145"></div>
+          <h5 align="left"><b>Left four plots:</b> Solution of 2-D
+            Cahn-Hilliard equation in time, subject to a non-mean-zero
+            initial condition. <b>Right:</b> Adaptive time-stepping
+            is used to speed up the computation while still accurately
+            captures different stages of phase separation.<br>
+          </h5>
+          <br>
+          <h2>Buckley-Leverett Equations</h2>
+          <p>In fluid dynamics, the Buckley-Leverett (BL) equation is
+            a model for two-phase flow in porous medium. The modified
+            Buckley-Leverett (MBL) has considered the dynamic
+            capillary pressure that results from difference in the
+            pressures of the two phases. One application for MBL is on
+            secondary recovery by water-drive in oil reservoir
+            simulation.<br>
+            <br>
+          </p>
+          <p> Rotational Modified BL (MBL) equation in 2-D <br>
+            $$u_t + \nabla\cdot\left(\vec{V}{\displaystyle
+            \frac{u^2}{u^2+M(1-u)^2}}\right) = \varepsilon\,\Delta\,u
+            + \varepsilon^2\tau \Delta u_t,\quad \vec{V}=[y,-x] ,
+            \quad \varepsilon&gt;0, \quad \tau&gt;0.$$ </p>
+          <h2 align="center"><img alt="" src="pics/Screenshot_1.png"
+              width="482" align="top" height="300"></h2>
+          <h5>Comparison of numerical solutions for BL (top row) and
+            MBL (bottom row) equations. Initial condition is a smooth
+            2-D Gaussian function cut off by a plateau. <b>Left: </b>View
+from
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+the
+            top<b>. R</b><b>ight:</b> 3-D view. The numerical
+            solution for the MBL equation reproduces the non-monotone
+            profile observed in experiments.<br>
+          </h5>
           <h3>Collaborators</h3>
-          <p><a moz-do-not-send="true"
-              href="https://personal.math.vt.edu/lchilds/">Lauren Childs</a>,
-            Virginia Tech<br>
-            <a moz-do-not-send="true" href="https://www.cedholm.com/">Christina
-
-
-
-              Edholm</a>, Scripps College<br>
-            <a moz-do-not-send="true" href="https://denispatterson.com/">Denis
-
-
-
-              Patterson</a>, Durham University<br>
-            <a moz-do-not-send="true"
-              href="https://search.asu.edu/profile/4442225">Joan Ponce</a>,
-            Arizona State University<br>
-            <a moz-do-not-send="true"
-              href="https://math.utk.edu/people/olivia-prosper/">Olivia
-              Prosper</a>, University of Tennessee, Knoxville<br>
-            <a moz-do-not-send="true"
-              href="https://slihongzhao.github.io/">Lihong Zhao</a>,
-            Virginia Tech </p>
+          <p><a
+              href="https://scholar.google.com/citations?user=cmJDXyQAAAAJ&amp;hl=en">Alexander
+              Kurganov</a> (Southern University of Science and
+            Technology, China) <br>
+            <a
+              href="https://scholar.google.com/citations?user=RM6TOsUAAAAJ&amp;hl=en">Tao
+              Tang</a> (Southern University of Science and Technology,
+            China) <br>
+            <a href="http://www1.cmc.edu/pages/faculty/CKao/">Chiu-Yen
+              Kao</a> (Claremont McKenna College) <br>
+            <a href="http://www2.math.ou.edu/%7Ewang/">Ying Wang</a>
+            (University of Oklahoma) <br>
+            <a href="https://www.linkedin.com/in/yuanzhencheng/">Yuanzheng
+              Cheng</a> (Goldman Sachs)<br>
+          </p>
           <p><br>
             <a moz-do-not-send="true" href="research.html">Back to All
               Research</a><br>
-            <br>
           </p>
+          <br>
         </div>
       </div>
+      <br>
     </div>
-    <br>
     <div align="center">
       <h3><br>
       </h3>
