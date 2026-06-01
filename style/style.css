@@ -1,3 +1,11 @@
+/* ============================================================
+   style.css  —  Zhuolin Qu's Website
+   Original color palette + layout, with new feature styles
+   added at the bottom (badges, filter buttons, highlights).
+   ============================================================ */
+
+/* ── Original styles (unchanged) ───────────────────────── */
+
 html
 { height: 100%;}
 
@@ -6,20 +14,19 @@ html
   padding: 0;}
 
 body
-{ font: normal 1em 'trebuchet ms', arial, sans-serif; 
+{ font: normal 1em arial, helvetica neue, helvetica, sans-serif;
   background: #F7F7F7 url(pattern.png) fixed;
   color: #555;}
 
 p
 { font: normal 100% arial, helvetica neue, helvetica, sans-serif;
- padding: 0 0 5px 0;
- line-height: 1.2em;
-}
+  padding: 0 0 5px 0;
+  line-height: 1.2em;}
 
 img
 { border: 0;}
 
-h1, h2, h3, h4, h5, h6 
+h1, h2, h3, h4, h5, h6
 { font: normal 250% 'Yanone Kaffeesatz', arial, sans-serif;
   color: #444;
   margin: 0 0 15px 0;
@@ -27,14 +34,9 @@ h1, h2, h3, h4, h5, h6
 
 h2
 { font: normal 170% 'Yanone Kaffeesatz', arial, sans-serif;
-  color: #F14E23;  
+  color: #F14E23;
   margin: 0;
   padding: 0 0 8px 0;}
-
-h21
-{ font: normal 85% 'Yanone Kaffeesatz', arial, sans-serif;
-  font-weight: 300;
-}
 
 h3
 { font-size: 150%;
@@ -56,41 +58,20 @@ h5, h6
 h6
 { color: #362C20;}
 
-a:link {text-decoration: underline;} /* unvisited link */
-a:active  { transition: color .3s; color: #007BE6;}
+a:link   { text-decoration: underline;}
+a:active { transition: color .3s; color: #007BE6;}
 
-.left
-{ float: left;
-  width: auto;
-  margin-right: 10px;}
+.left  { float: left;  width: auto; margin-right: 10px;}
+.right { float: right; width: auto; margin-left: 10px;}
+.center{ display: block; text-align: center; margin: 20px auto;}
 
-.right
-{ float: right; 
-  width: auto;
-  margin-left: 10px;}
-
-.center
-{ display: block;
-  text-align: center;
-  margin: 20px auto;}
-
-ul
-{ margin: 2px 0 22px 17px;}
-
-ul li
-{ list-style-type: circle;
-  margin: 0 0 0 0; 
-  padding: 0px 0px 1px 1px;}
-
-ol
-{ margin: 8px 0 22px 20px;}
-
-ol li
-{ margin: 0 0 11px 0;}
+ul    { margin: 2px 0 22px 17px;}
+ul li { list-style-type: circle; margin: 0; padding: 0px 0px 1px 1px;}
+ol    { margin: 8px 0 22px 20px;}
+ol li { margin: 0 0 11px 0;}
 
 #main, #header, #logo, #menubar, #site_content, #footer
-{ margin-left: auto; 
-  margin-right: auto;}
+{ margin-left: auto; margin-right: auto;}
 
 #main
 { width: 950px;
@@ -113,19 +94,14 @@ ol li
   color: #555;
   float: left;}
 
-#logo h1 a
-{ color: #35BDF5;
-  text-decoration: none;}
-
-#logo h1 a:hover
-{ color: #555;
-  text-decoration: none;}
+#logo h1 a       { color: #35BDF5; text-decoration: none;}
+#logo h1 a:hover { color: #555;    text-decoration: none;}
 
 .slogan
-{ float: right; 
+{ float: right;
   padding-right: 25px;
-  text-align: right; 
-  font: 400% 'Tangerine',cursive;
+  text-align: right;
+  font: 400% 'Tangerine', cursive;
   color: #111;}
 
 #menubar
@@ -133,14 +109,12 @@ ol li
   width: 800px;
   margin: 0px auto -1px auto;
   float: right;
-  padding: 0px 0 0 0;} 
+  padding: 0px 0 0 0;}
 
-ul#menu
-{ float: right;}
-
+ul#menu         { float: right;}
 ul#menu li
 { float: left;
-  padding: 0 0 0px 0px;
+  padding: 0;
   list-style: none;
   margin: 2px 0 0 0;
   background: transparent;}
@@ -149,32 +123,29 @@ ul#menu li a
 { font: normal 150% 'Yanone Kaffeesatz', sans-serif;
   text-decoration: none;
   color: #444;
-  display: block; 
-  float: left; 
+  display: block;
+  float: left;
   height: 20px;
   padding: 7px 20px 15px 20px;
-  text-align: center;} 
+  text-align: center;}
 
 ul#menu li.current a
 { height: 20px;
-  padding: 6px 20px 15px 20px;}
-
-ul#menu li.current a
-{ background: #fff;
+  padding: 6px 20px 15px 20px;
+  background: #fff;
   border: 1px solid #ddd;
   border-bottom: 0;
   color: #F14E23;}
 
-ul#menu li a:hover
-{ color: #F14E23;}
+ul#menu li a:hover { color: #F14E23;}
 
 #site_content
 { width: 950px;
   overflow: hidden;
-  margin: 0 auto 0 auto;
+  margin: 0 auto;
   padding: 0;
   background: #fff;
-  border: 1px solid #E7E7E7;} 
+  border: 1px solid #E7E7E7;}
 
 #sidebar_container
 { float: right;
@@ -193,14 +164,13 @@ ul#menu li a:hover
 { padding: 10px 15px;
   margin: 0 1px;}
 
-.sidebar h1
-{ padding: 5px 0 0 0;}
+.sidebar h1 { padding: 5px 0 0 0;}
 
 .paperclip
 { float: left;
-  position: relative; 
+  position: relative;
   z-index: 0;
-  vertical-align: middle; 
+  vertical-align: middle;
   margin: -27px 0 -60px -30px;}
 
 #content
@@ -215,15 +185,14 @@ ul#menu li a:hover
 #content ul li
 { list-style-type: none;
   background: url(bullet.png) no-repeat;
-  margin: 0 0 6px 0; 
+  margin: 0 0 6px 0;
   padding: 0 0 5px 25px;
   line-height: 1.5em;}
-
 
 #contentf
 { text-align: left;
   width: 880px;
-padding: 25px 0 5px 25px;
+  padding: 25px 0 5px 25px;
   margin: 0;}
 
 #contentf ul
@@ -232,221 +201,200 @@ padding: 25px 0 5px 25px;
 #contentf ul li
 { list-style-type: none;
   background: url(bullet.png) no-repeat;
-  margin: 0 0 6px 0; 
+  margin: 0 0 6px 0;
   padding: 0 0 4px 25px;
   line-height: 1.5em;}
 
 #footer
 { clear: both;
   width: 100%;
-  font: normal 150% 'yanone kaffeesatz',  arial, sans-serif;
+  font: normal 150% 'yanone kaffeesatz', arial, sans-serif;
   height: 85px;
   padding: 20px 0 5px 0;
-  text-align: center; 
+  text-align: center;
   color: #555;
   background: transparent;
   margin-bottom: 20px;}
 
-#footer p
-{ padding: 0 0 10px 0;}
+#footer p { padding: 0 0 10px 0;}
+#footer a, #footer a:hover { color: #555; text-decoration: none;}
+#footer a:hover { color: #35BDF5; text-decoration: none;}
 
-#footer a, #footer a:hover
-{ color: #555;
-  text-decoration: none;}
+.ai              { border-radius: 50%;}
+.ai:hover        { opacity: 0.7;}
+.ai-google-scholar-square { background: none; color: #357df3;}
+.ai-researchgate-square   { background: none; color: #00ccbb;}
+.fa-linkedin              { background: none; color: #0077b5;}
+.fa-envelope-square       { background: none; color: #969696;}
+.fa-square-github         { background: none; color: #333;}
 
-#footer a:hover
-{ color: #35BDF5;
-  text-decoration: none;}
+/* Research project tab buttons */
+.tab { overflow: hidden; border: none;}
 
-.gallery img
-{ position:absolute;}
-
-.form_settings
-{ margin: 5px 0 0 0;}
-
-.form_settings p
-{ padding: 0 0 10px 0;}
-
-.form_settings span
-{ padding: 5px 0; 
-  float: left; 
-  width: 170px; 
-  text-align: left;}
-  
-.form_settings input, .form_settings textarea
-{ width: 252px; 
-  font: 100% 'trebuchet ms', arial;
-  border: 0;
-  border: 1px solid #eee;
-  padding: 5px 10px;
-  background: #fff;
-  color: #FFF;}
-  
-.form_settings .submit
-{ border: 0; 
-  width: auto;
-  margin: 0 0 0 200px; 
-  cursor: pointer; 
-  color: #35BDF5;
-  border: 1px solid #ddd;
-  padding: 5px 15px;
-  background: #fff;
-  font: normal 140% 'Yanone Kaffeesatz', sans-serif;}
-
-.form_settings textarea, .form_settings select
-{ font: 100% 'trebuchet ms', arial; 
-  border: 1px solid #eee;
-  padding: 5px 10px;
-  background: #fff;
-  width: 252px;
-  overflow: auto;}
-
-.form_settings select
-{ width: 274px;}
-
-.form_settings .checkbox
-{ margin: 4px 0; 
-  padding: 0; 
-  width: 14px;
-  border: 0;
-  background: none;}
-
-.search
-{ color: #666;
-  border: 1px solid #eee;
-  margin: 0;
-  padding: 10px 5px;
-  width: 189px;
-  color: #F14E23;}
-  
-.subscribe
-{ color: #35BDF5;
-  border: 1px solid #ddd;
-  padding: 5px 10px;
-  background: #fff;
-  float: right;
-  cursor: pointer;
-  margin: 0;
-  font: normal 140% 'Yanone Kaffeesatz', sans-serif;}
- 
-table
-{ margin: 10px 0 30px 0;}
-
-table tr th, table tr td
-{ background: #F5F5F5;
-  color: #111;
-  padding: 7px 4px;
-  text-align: left;}
-  
-table tr td
-{ background: #FBFBFB;
-  color: #111;
-  border-top: 1px solid #FFF;}
-
-.ai {
-    border-radius: 50%;
-}
-
-.ai:hover {
-    opacity: 0.7;
-}
-
-.ai-google-scholar-square {
-    background: none;
-    color: #357df3;
-}
-
-.ai-researchgate-square {
-    background: none;
-    color: #00ccbb;
-}
-
-.fa-linkedin {
-    background: none;
-    color: #0077b5;
-}
-
-.fa-envelope-square {
-    background: none;
-    color: #969696;
-}
-
-.fa-facebook-square {
-    background: none;
-    color: #4267b2;
-}
-
-
-
-/* Style the tab */
-.tab {
-  overflow: hidden;
-  border: none;
-}
-
-/* Style the buttons that are used to open the tab content */
-.tab button {
-  position:relative;
-  display:inline-block;
+.tab button
+{ position: relative;
+  display: inline-block;
   background-color: #F7F7F7;
-  float: center;
   border: double;
   outline: none;
   cursor: pointer;
   transition: 0.5s;
-  display:inline-block;
-  background-size:100%;
-  background-repeat:no-repeat;
-  color: #444;  
+  background-size: 100%;
+  background-repeat: no-repeat;
+  color: #444;
   font: normal 150% 'Yanone Kaffeesatz', arial, sans-serif;
-  width:240px;
-  height:240px;
-   margin:25px;
-  text-align:center; 
-}
+  width: 240px;
+  height: 240px;
+  margin: 25px;
+  text-align: center;}
 
+.tab button div
+{ margin: 0; padding: 10px 0;
+  position: absolute;
+  bottom: 0;
+  width: 234px;
+  background-color: rgba(255,255,255,0.75);}
 
-.tab button div {
-        margin:0px;
-	padding:0px;
-	padding-top:10px;
-	padding-bottom:10px;
-	position:absolute;
-	bottom:0px;
-	width:234px;
-        background-color: rgba(255,255,255,0.75);
-}
+.tab button:hover,
+.tab button.active
+{ background-color: #e6e6e6;
+  color: #F14E23;}
 
-
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #e6e6e6;
-  color: #F14E23;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #e6e6e6;
-  color: #F14E23;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
+.tabcontent
+{ display: none;
   padding: 6px 12px;
   -webkit-animation: fadeEffect 1s;
-  animation: fadeEffect 1s;
+  animation: fadeEffect 1s;}
+
+@-webkit-keyframes fadeEffect { from{opacity:0;} to{opacity:1;} }
+@keyframes fadeEffect         { from{opacity:0;} to{opacity:1;} }
+
+table            { margin: 10px 0 30px 0;}
+table tr th, table tr td { background: #F5F5F5; color: #111; padding: 7px 4px; text-align: left;}
+table tr td      { background: #FBFBFB; color: #111; border-top: 1px solid #FFF;}
+
+
+/* ── NEW: Profile photo in sidebar ─────────────────────── */
+.profile-photo
+{ display: block;
+  width: 86%;
+  max-width: 170px;
+  border-radius: 50%;
+  margin: 8px auto 12px auto;
+  border: 3px solid #e8e8e8;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.12);}
+
+/* ── NEW: Highlights box (homepage) ────────────────────── */
+.highlights-box
+{ background: #FFFEF8;
+  border-left: 4px solid #F14E23;
+  padding: 11px 16px 13px;
+  margin: 18px 0 16px 0;}
+
+.highlights-box h4
+{ font: normal 130% 'Yanone Kaffeesatz', arial, sans-serif;
+  color: #F14E23;
+  margin: 0 0 8px 0;
+  padding: 0;}
+
+.highlights-list
+{ list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;}
+
+.highlights-list li
+{ background: none !important;
+  padding: 0 0 7px 0 !important;
+  margin: 0 0 6px 0 !important;
+  border-bottom: 1px solid #F0EDE6;
+  font-size: 0.92em;
+  line-height: 1.5;}
+
+.highlights-list li:last-child
+{ border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;}
+
+/* ── NEW: Entry type badges ─────────────────────────────── */
+.entry-badge
+{ display: inline-block;
+  padding: 1px 8px;
+  border-radius: 9px;
+  font-size: 0.72em;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  margin-right: 4px;}
+
+.badge-talk  { background: #4A90C4; color: #fff;}
+.badge-paper { background: #5A9E5A; color: #fff;}
+.badge-grant { background: #D4821A; color: #fff;}
+.badge-news  { background: #909090; color: #fff;}
+
+.entry-venue { color: #777; font-size: 0.94em;}
+.entry-date  { color: #aaa; font-size: 0.87em; font-style: italic;}
+
+/* ── NEW: Filter bar (updates page) ─────────────────────── */
+.filter-bar
+{ margin: 10px 0 18px 0;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;}
+
+.filter-btn
+{ padding: 4px 14px;
+  border: 1px solid #ddd;
+  background: #F7F7F7;
+  color: #555;
+  font: normal 120% 'Yanone Kaffeesatz', arial, sans-serif;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;}
+
+.filter-btn:hover  { background: #eee; color: #F14E23;}
+.filter-btn.active { background: #F14E23; color: #fff; border-color: #F14E23;}
+
+/* ── NEW: Updates page — entries list ──────────────────── */
+#entries-container h3
+{ margin-top: 20px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #E7E7E7;
+  color: #444;}
+
+#entries-container ul
+{ list-style: none !important;
+  margin: 8px 0 0 0 !important;
+  padding: 0 !important;}
+
+#entries-container li
+{ background: none !important;
+  padding: 6px 0 6px 0 !important;
+  margin: 0 !important;
+  border-bottom: 1px dotted #E7E7E7;
+  line-height: 1.55;
+  font-size: 0.93em;}
+
+#entries-container li:last-child { border-bottom: none;}
+
+#upcoming-container ul  { margin: 4px 0 0 0 !important;}
+#upcoming-container li
+{ background: url(bullet.png) no-repeat !important;
+  padding: 0 0 5px 25px !important;
+  line-height: 1.5em;}
+
+/* ── NEW: Responsive (mobile) ───────────────────────────── */
+@media (max-width: 980px) {
+  #main, #header, #site_content, #contentf { width: 100% !important; box-sizing: border-box;}
+  #header  { height: auto;}
+  #logo    { width: 100% !important; height: auto;}
+  .slogan  { float: none; display: block; text-align: left; padding: 0 10px; font-size: 200%;}
+  #menubar { width: 100% !important; float: none; height: auto;}
+  ul#menu  { float: none; display: flex; flex-wrap: wrap; padding: 4px;}
+  ul#menu li a { font-size: 120%; padding: 6px 12px 10px;}
+  #sidebar_container { float: none; width: 100% !important;}
+  .sidebar { float: none; width: auto !important; margin: 10px 15px;}
+  #content  { width: 100% !important; box-sizing: border-box;}
+  #contentf { width: 100% !important; box-sizing: border-box;}
+  .tab button { width: 160px; height: 160px; margin: 10px;}
 }
-
-/* Fade in tabs */
-@-webkit-keyframes fadeEffect {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-
-@keyframes fadeEffect {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-
-
