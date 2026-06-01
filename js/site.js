@@ -121,35 +121,24 @@
   // ── Publications page ────────────────────────────────────
   function renderPaperList(papers, container) {
     if (!container || papers.length === 0) return;
-    const yearMap = groupByYear(papers);
-    const years = Object.keys(yearMap).map(Number).sort((a, b) => b - a);
-    let html = "";
-    years.forEach(year => {
-      html += `<h4 class="pub-year">${year}</h4><ul>`;
-      yearMap[year].forEach(p => {
-        const titlePart = p.link ? `<a href="${p.link}">${p.title}</a>` : p.title;
-        const authorPart = p.authors ? p.authors + ", " : "";
-        html += `<li>${authorPart}${titlePart}`;
-        if (p.venue) html += `, <em>${p.venue}</em>`;
-        html += extraLinks(p);
-        html += ".</li>";
-      });
-      html += "</ul>";
+    let html = "<ol class=\"pub-list\">";
+    papers.forEach(p => {
+      const titlePart = p.link ? `<a href="${p.link}">${p.title}</a>` : p.title;
+      html += `<li>`;
+      html += `<span class="pub-title">${titlePart}</span>`;
+      if (p.authors) html += `<br><span class="pub-authors">${p.authors}</span>`;
+      if (p.venue)   html += `<br><em class="pub-venue">${p.venue}</em>`;
+      html += extraLinks(p);
+      html += `</li>`;
     });
+    html += "</ol>";
     container.innerHTML = html;
   }
 
   function renderPublications() {
     if (!window.siteData) return;
     const allPapers = sortByDate(siteData.entries.filter(e => e.type === "paper"));
-    renderPaperList(
-      allPapers.filter(p => p.field !== "numerical"),
-      document.getElementById("publications-container")
-    );
-    renderPaperList(
-      allPapers.filter(p => p.field === "numerical"),
-      document.getElementById("publications-numerical-container")
-    );
+    renderPaperList(allPapers, document.getElementById("publications-container"));
   }
 
   // ── Automate "last update" date ──────────────────────────

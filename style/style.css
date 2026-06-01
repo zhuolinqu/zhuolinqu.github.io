@@ -438,13 +438,22 @@ table tr td { background: #FBFBFB; color: #111; border-top: 1px solid #FFF; }
   line-height: 1.5em;
 }
 
-/* ── Publications year headers ─────────────────────────────── */
-h4.pub-year {
-  font: normal 130% 'Yanone Kaffeesatz', Arial, sans-serif;
-  color: var(--text-dark);
-  margin: 16px 0 4px 0;
-  padding: 0 0 3px 0;
-  border-bottom: 1px solid var(--border);
+/* ── Publications list ─────────────────────────────────────── */
+ol.pub-list {
+  padding-left: 1.6em;
+}
+ol.pub-list li {
+  margin-bottom: 1em;
+  line-height: 1.5;
+}
+.pub-title {
+  font-weight: 600;
+}
+.pub-authors {
+  color: var(--text-mid, #555);
+}
+.pub-venue {
+  color: var(--text-mid, #555);
 }
 
 /* ── Back-to-top button ────────────────────────────────────── */
