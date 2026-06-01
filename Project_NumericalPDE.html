@@ -1,18 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title> Zhuolin Qu's Homepage </title>
-    <meta name="description" content=" Applied Mathematician researching
-      the modeling of infectious disease.">
-    <meta name="keywords" content="zhuolin, zhoulin, qu, tulane, math,
-      postdoc, mathematics, infectious, disease, mosquito, wolbachia">
+    <title>Numerical Methods for Nonlinear PDEs — Zhuolin Qu</title>
+    <meta name="description" content="Fast operator splitting and adaptive mesh methods for nonlinear PDEs by Zhuolin Qu.">
+    <meta name="keywords" content="numerical methods, PDE, operator splitting, phase field, finite volume, mathematics">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tangerine&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="style/style.css">
+    <link rel="stylesheet" href="style/style.css">
     <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Zhuolin Qu">
+    <meta property="og:title" content="Numerical Methods for Nonlinear PDEs — Zhuolin Qu">
+    <meta property="og:description" content="Fast operator splitting and adaptive mesh methods for nonlinear PDEs.">
+    <meta property="og:url" content="https://zhuolinqu.github.io/Project_NumericalPDE.html">
+    <meta property="og:image" content="https://zhuolinqu.github.io/pics/qu-zhuolin.jpg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Numerical Methods for Nonlinear PDEs — Zhuolin Qu">
+    <meta name="twitter:description" content="Fast operator splitting and adaptive mesh methods for nonlinear PDEs.">
   </head>
   <body>
+    <a class="skip-link" href="#site_content">Skip to main content</a>
     <div id="main">
       <div id="header">
         <div id="logo">
@@ -22,7 +34,6 @@
         </div>
         <div id="menubar">
           <ul id="menu">
-            <!-- put class="current" in the li tag for the selected page - to highlight which page you're on -->
             <li><a href="index.html">Home</a></li>
             <li><a href="updates.html">Updates</a></li>
             <li class="current"><a href="research.html">Research</a></li>
@@ -67,9 +78,9 @@
             \delta&gt;0.$$ The <b>Cahn-Hilliard</b> equation $$
             u_{t}=-\delta \Delta^{2} u+\Delta\left(u^{3}-u\right),&nbsp;
             \quad \delta&gt;0.$$ </p>
-          <div align="center"><img src="pics/Screenshot_2.png" alt=""
+          <div align="center"><img loading="lazy" src="pics/Screenshot_2.png" alt="Computational simulation result"
               height="200" width="282" align="top">&nbsp;&nbsp; <img
-              src="pics/Screenshot_3.png" alt="" height="200"
+              src="pics/Screenshot_3.png" alt="Computational simulation result" height="200"
               width="476" align="top"></div>
           <div align="left">
             <h5><b>Left:</b> Thin film epitaxy (MBE equation): the
@@ -78,9 +89,9 @@
               equation): two components of a binary fluid spontaneously
               separate and form domains pure in each component </h5>
           </div>
-          <div align="center"><img src="pics/Screenshot_4.png" alt=""
+          <div align="center"><img loading="lazy" src="pics/Screenshot_4.png" alt="Computational simulation result"
               height="200" width="526" align="top"><img
-              src="pics/Screenshot_5.png" alt="" height="200"
+              src="pics/Screenshot_5.png" alt="Computational simulation result" height="200"
               width="234" align="top"><br>
           </div>
           <h5 align="left"><b>Left and middle: </b>Solution of 2-D MBE
@@ -90,8 +101,8 @@
             coarsening process. <b>Right: </b>The mean height remains
             practically zero at all times, which verifies the mass
             conservation of the numerical method.</h5>
-          <div align="center"><img src="pics/Screenshot_6.png" alt=""
-              height="150"><img src="pics/Screenshot_7.png" alt=""
+          <div align="center"><img loading="lazy" src="pics/Screenshot_6.png" alt="Computational simulation result"
+              height="150"><img loading="lazy" src="pics/Screenshot_7.png" alt="Computational simulation result"
               height="145"></div>
           <h5 align="left"><b>Left four plots:</b> Solution of 2-D
             Cahn-Hilliard equation in time, subject to a non-mean-zero
@@ -114,7 +125,7 @@
             \frac{u^2}{u^2+M(1-u)^2}}\right) = \varepsilon\,\Delta\,u +
             \varepsilon^2\tau \Delta u_t,\quad \vec{V}=[y,-x] , \quad
             \varepsilon&gt;0, \quad \tau&gt;0.$$ </p>
-          <h2 align="center"><img alt="" src="pics/Screenshot_1.png"
+          <h2 align="center"><img loading="lazy" alt="Computational simulation result" src="pics/Screenshot_1.png"
               height="300" width="482" align="top"></h2>
           <h5>Comparison of numerical solutions for BL (top row) and MBL
             (bottom row) equations. Initial condition is a smooth 2-D
@@ -152,7 +163,7 @@
               Cheng</a> (Goldman Sachs)<br>
           </p>
           <p><br>
-            <a moz-do-not-send="true" href="research.html">Back to All
+            <a href="research.html">Back to All
               Research</a><br>
           </p>
           <br>
@@ -163,33 +174,19 @@
     <div align="center">
       <h3><br>
       </h3>
-      <h3>Copyright © Zhuolin Qu | <a
-          href="http://www.html5webtemplates.co.uk">Website templates</a></h3>
-    </div>
-    <script>
-function openCity(evt, cityName) {
-// Declare all variables
-var i, tabcontent, tablinks;
-// Get all elements with class="tabcontent" and hide them
-tabcontent = document.getElementsByClassName("tabcontent");
-for (i = 0; i < tabcontent.length; i++) {
-tabcontent[i].style.display = "none";
-}
-
-// Get all elements with class="tablinks" and remove the class "active"
-tablinks = document.getElementsByClassName("tablinks");
-for (i = 0; i < tablinks.length; i++) {
-tablinks[i].className = tablinks[i].className.replace(" active", "");
-}
-
-// Show the current tab, and add an "active" class to the button that opened the tab
-document.getElementById(cityName).style.display = "block";
-evt.currentTarget.className += " active";
-}
-
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
-
-</script>
+      <div id="footer">
+        <nav class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="updates.html">Updates</a>
+          <a href="research.html">Research</a>
+          <a href="publications.html">Publications</a>
+          <a href="teaching.html">Teaching</a>
+          <a href="files/CV_Qu.pdf">CV</a>
+        </nav>
+        <p>Copyright &copy; Zhuolin Qu &nbsp;&middot;&nbsp; <a href="mailto:zhuolin.qu@utsa.edu">zhuolin.qu@utsa.edu</a></p>
+      </div>
+        <a href="#" id="back-to-top" aria-label="Back to top">&#8679;</a>
+    <script src="js/updates-data.js"></script>
+    <script src="js/site.js"></script>
   </body>
 </html>

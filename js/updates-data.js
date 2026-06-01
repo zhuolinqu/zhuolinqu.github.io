@@ -533,6 +533,44 @@ var siteData = {
       date: "2017-02", year: 2017, type: "grant",
       title: "Won 'Award for Excellence in Research and Presentation by a Postdoctoral Fellow' at the 28th Annual Health Sciences Research Days (among ~200 presentations)",
       venue: "Tulane University, New Orleans"
+    },
+
+    // ── Numerical Methods papers (field: "numerical") ─────
+    // These appear only on the Publications page, not in the Updates feed.
+    {
+      date: "2022-06", year: 2022, type: "paper", field: "numerical",
+      authors: "Zhuolin Qu, Alexander Kurganov, and Tong Wu",
+      title: "Well-Balanced Positivity Preserving Adaptive Moving Mesh Central-Upwind Schemes for the Saint-Venant System",
+      venue: "ESAIM: Mathematical Modelling and Numerical Analysis, 56 (2022): 1327&ndash;1360",
+      doiLink: "https://www.esaim-m2an.org/articles/m2an/abs/2022/04/m2an210164/m2an210164.html"
+    },
+    {
+      date: "2021-01", year: 2021, type: "paper", field: "numerical",
+      authors: "Zhuolin Qu, Alexander Kurganov, Olga Rozanova, and Tong Wu",
+      title: "Adaptive Moving Mesh Central-Upwind Schemes for Hyperbolic System of PDEs: Applications to Compressible Euler Equations and Granular Hydrodynamics",
+      venue: "Communications on Applied Mathematics and Computation, 3 (2021): 445&ndash;479",
+      link: "https://math.sustech.edu.cn/uploads/20191002/519c9619db739e7eafe738f39ff81fe7.pdf"
+    },
+    {
+      date: "2015-10", year: 2015, type: "paper", field: "numerical",
+      authors: "Yuanzhen Cheng, Alexander Kurganov, Zhuolin Qu, and Tao Tang",
+      title: "Fast and Stable Explicit Operator Splitting Methods for Phase-Field Models",
+      venue: "Journal of Computational Physics, 303 (2015): 45&ndash;65",
+      pdfLink: "publications/Cheng-Kurganov-Qu-Tang.pdf"
+    },
+    {
+      date: "2015-08", year: 2015, type: "paper", field: "numerical",
+      authors: "Chiu-Yen Kao, Alexander Kurganov, Zhuolin Qu, and Ying Wang",
+      title: "A Fast Explicit Operator Splitting Method for Modified Buckley-Leverett Equations",
+      venue: "Journal of Scientific Computing, 64 (2015): 837&ndash;857",
+      pdfLink: "publications/Kao-Kurganov-Qu-Wang.pdf"
+    },
+    {
+      date: "2013-01", year: 2013, type: "paper", field: "numerical",
+      authors: "Alina Chertock, Alexander Kurganov, Zhuolin Qu, and Tong Wu",
+      title: "Three-Layer Approximation of Two-Layer Shallow Water Equations",
+      venue: "Mathematical Modeling and Analysis, 18 (2013): 675&ndash;693",
+      pdfLink: "publications/Chertock-Kurganov-Qu-Wu.pdf"
     }
 
   ] // end entries
