@@ -442,6 +442,14 @@ table tr td { background: #FBFBFB; color: #111; border-top: 1px solid #FFF; }
 ol.pub-list {
   padding-left: 1.6em;
 }
+ul.pub-list-plain {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+ul.pub-list-plain li {
+  list-style: none !important;
+}
 ol.pub-list li {
   margin-bottom: 1em;
   line-height: 1.5;
