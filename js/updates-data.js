@@ -44,23 +44,16 @@ var siteData = {
   // (or move them into "entries" below as type: "talk").
   upcoming: [
     {
-      title: "SIAM Conference on the Life Sciences",
-      venue: "Ohio, US",
-      date: "July 6–9, 2026",
-      link: "https://www.siam.org/conferences-events/siam-conferences/ls26/"
+      title: "Malaria in Children: Seasonal Prevention, Acquired Immunity and Drug Resistance",
+      venue: "AIM SQuaRE",
+      date: "September 21-25, 2026"
     },
     {
-      title: "GRC Genetic Biocontrol",
-      venue: "Maine, US",
-      date: "July 12–17, 2026",
-      link: "https://www.grc.org/genetic-biocontrol-conference/2026/"
-    },
-    {
-      title: "SIAM TX-LA Sectional Meeting 2026",
-      venue: "Southern Methodist University, Dallas, TX",
-      date: "October 30–November 1, 2026",
-      link: "https://sites.google.com/view/siam-txla-2026"
-    }
+      title: "2026 AMS Fall Western Sectional Meeting",
+      venue: "Arizona State University, Tempe, AZ",
+      date: "November 7-8, 2026",
+      link: "https://www.ams.org/meetings/sectional/2335_program.html"
+    }  
   ],
 
   // ── PAST ENTRIES — newest first ──────────────────────────
@@ -73,12 +66,11 @@ var siteData = {
       venue: "ICERM, Brown University"
     },
 	{
-      date: "2026-04", year: 2026, type: "paper", highlight: true,
+      date: "2026-06", year: 2026, type: "paper", highlight: true,
       authors: "Zhuolin Qu and Tong Wu",
-
       title: "Multistage spatial model for informing release of <em>Wolbachia</em>-infected mosquitoes as disease control",
-      venue: "Royal Society Open Science (to appear, 2026)",
-      link: "publications/Qu-Wu-RSOS.pdf"
+      venue: "Royal Society Open Science, 13 (6): 251724",
+      link: "https://doi.org/10.1098/rsos.251724"
     },
     {
       date: "2026-04", year: 2026, type: "news", highlight: true,
@@ -104,12 +96,6 @@ var siteData = {
       title: "College of Sciences Research Symposium",
       venue: "University of Texas at San Antonio",
       link: "https://sciences.utsa.edu/research-symposium/"
-    },
-    {
-      date: "2026-03", year: 2026, type: "talk",
-      title: "2026 Texas Differential Equations Conference",
-      venue: "San Antonio, TX",
-      link: "https://txpde2026.github.io/index.html"
     },
     {
       date: "2026-02", year: 2026, type: "talk",
