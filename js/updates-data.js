@@ -53,7 +53,13 @@ var siteData = {
       venue: "Arizona State University, Tempe, AZ",
       date: "November 7-8, 2026",
       link: "https://www.ams.org/meetings/sectional/2335_program.html"
-    }  
+    }, 
+   {
+      title: "SIAM Conference on Computational Science and Engineering",
+      venue: "Pittsburgh, Pennsylvania",
+      date: "February 22–26, 2027",
+      link: "https://www.siam.org/conferences-events/siam-conferences/cse27/"
+    }
   ],
 
   // ── PAST ENTRIES — newest first ──────────────────────────
@@ -69,7 +75,7 @@ var siteData = {
       date: "2026-06", year: 2026, type: "paper", highlight: true,
       authors: "Zhuolin Qu and Tong Wu",
       title: "Multistage spatial model for informing release of <em>Wolbachia</em>-infected mosquitoes as disease control",
-      venue: "Royal Society Open Science, 13 (6): 251724",
+      venue: "Royal Society Open Science, (2026), 13 (6): 251724",
       link: "https://doi.org/10.1098/rsos.251724"
     },
     {
@@ -108,21 +114,21 @@ var siteData = {
       date: "2025-12", year: 2025, type: "paper",
       authors: "Daniela Florez, Ricardo Cortez, James M. Hyman, and Zhuolin Qu",
       title: "Improving <em>Wolbachia</em>-based control programs in urban settings: insights from spatial modeling",
-      venue: "PLOS Neglected Tropical Diseases, 19(12): e0013787",
+      venue: "PLOS Neglected Tropical Diseases, (2025), 19(12): e0013787",
       link: "https://doi.org/10.1371/journal.pntd.0013787"
     },
     {
       date: "2025-10", year: 2025, type: "paper",
       authors: "Asma Azizi, Zhuolin Qu, and Caner Kazanci",
       title: "How human behavior drives the balance of symptomatic and asymptomatic cases in emerging infections",
-      venue: "Mathematical Biosciences, 109601",
+      venue: "Mathematical Biosciences, (2025), 109601",
       link: "publications/Azizi-Qu-Kazanci-Behavior.pdf"
     },
     {
       date: "2025-09", year: 2025, type: "paper",
       authors: "Zhuolin Qu and Lauren Childs",
       title: "Assessing the impact of the <em>Wolbachia</em>-based control of malaria",
-      venue: "Mathematical Biosciences, 109466",
+      venue: "Mathematical Biosciences, (2025), 109466",
       link: "https://doi.org/10.1016/j.mbs.2025.109466"
     },
     {
@@ -135,7 +141,7 @@ var siteData = {
       date: "2025-05", year: 2025, type: "paper", highlight: true,
       authors: "Zhuolin Qu*, Denis Patterson*, Lihong Zhao, Joan Ponce, Christina Edholm, Olivia Feldman, and Lauren Childs",
       title: "Mathematical modeling of malaria vaccination with seasonality and immune feedback",
-      venue: "PLOS Computational Biology, 21(5): e1012988",
+      venue: "PLOS Computational Biology, (2025), 21(5): e1012988",
       link: "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1012988"
     },
     {
@@ -308,7 +314,7 @@ var siteData = {
       date: "2023-01", year: 2023, type: "paper",
       authors: "Zhuolin Qu*, Denis Patterson*, Lauren Childs, Christina Edholm, Joan Ponce, Olivia Prosper, and Lihong Zhao",
       title: "Modeling immunity to malaria with an age-structured PDE framework",
-      venue: "SIAM Journal on Applied Mathematics",
+      venue: "SIAM Journal on Applied Mathematics (2023)",
       link: "publications/Qu et al-malaria-SIAP.pdf"
     },
 
@@ -317,21 +323,21 @@ var siteData = {
       date: "2023-03", year: 2023, type: "paper",
       authors: "Daniela Florez, Alyssa Young, Kerlly J. Bernabe, James M. Hyman, and Zhuolin Qu",
       title: "Modeling sustained transmission of <em>Wolbachia</em> among <em>Anopheles</em> mosquitoes: implications for malaria control in Haiti",
-      venue: "Tropical Medicine and Infectious Disease, 8(3) (2023): 162",
+      venue: "Tropical Medicine and Infectious Disease, (2023), 8(3): 162",
       link: "https://www.mdpi.com/2414-6366/8/3/162"
     },
     {
       date: "2022-06", year: 2022, type: "paper",
       authors: "Zhuolin Qu, Tong Wu, and James M. Hyman",
       title: "Modeling spatial waves of <em>Wolbachia</em> invasion for controlling mosquito-borne diseases",
-      venue: "SIAM Journal on Applied Mathematics, 82(6) (2022): 1903&ndash;1929",
+      venue: "SIAM Journal on Applied Mathematics, (2022), 82(6): 1903&ndash;1929",
       link: "publications/Qu-Wu-Hyman-SIAP-Modeling-Spatial.pdf"
     },
     {
       date: "2022-01", year: 2022, type: "paper",
       authors: "Hayriye Gulbudak, Zhuolin Qu, Fabio Milner, and Necibe Tuncer",
       title: "Sensitivity analysis in an immuno-epidemiological vector-host model",
-      venue: "Bulletin of Mathematical Biology, 84 (2022): 27",
+      venue: "Bulletin of Mathematical Biology, (2022), 84: 27",
       link: "publications/Gulbudak-Qu-Milner-Tuncer-SA-ImmunoEpi.pdf"
     },
     {
@@ -345,35 +351,35 @@ var siteData = {
       date: "2021-06", year: 2021, type: "paper",
       authors: "Asma Azizi, Jeremy Dewar, Zhuolin Qu, and James M. Hyman",
       title: "Using an agent-based sexual-network model to guide mitigation efforts for controlling Chlamydia",
-      venue: "Epidemics, 35 (2021): 100456",
+      venue: "Epidemics, (2021), 35: 100456",
       link: "publications/Azizi-Dewar-Qu-Hyman-Epidemics-Ct.pdf"
     },
     {
       date: "2021-04", year: 2021, type: "paper",
       authors: "Asma Azizi, Zhuolin Qu, Bryan Lewis, and James M. Hyman",
       title: "Generating a heterosexual bipartite network embedded in social network",
-      venue: "Applied Network Science, 6 (2021): 30",
+      venue: "Applied Network Science, (2021), 6: 30",
       link: "publications/Azizi-Qu-Lewis-Hyman-AppNetworkSci-Ct.pdf"
     },
     {
       date: "2021-02", year: 2021, type: "paper",
       authors: "Zhuolin Qu, Benjamin H. McMahon, Douglas J. Perkins, and James M. Hyman",
       title: "Staged progression epidemic models for the transmission of invasive nontyphoidal Salmonella (iNTS) with treatment",
-      venue: "Mathematical Biosciences and Engineering, 18 (2021): 1529&ndash;1549",
+      venue: "Mathematical Biosciences and Engineering, (2021), 18: 1529&ndash;1549",
       link: "publications/Qu-McMahon-DJ-Hyman-MBE-iNTS.pdf"
     },
     {
       date: "2020-06", year: 2020, type: "paper",
       authors: "Panpim Thongsripong, Zhuolin Qu, Joshua O Yukich, James M Hyman, and Dawn M Wesson",
       title: "An investigation of human-mosquito contact using surveys and its application in assessing dengue viral transmission risk",
-      venue: "Journal of Medical Entomology, 57 (2020): 1942&ndash;1954",
+      venue: "Journal of Medical Entomology, (2020), 57: 1942&ndash;1954",
       link: "publications/Thongsripong-Qu-Yukish-Hyman-Wesson-JME-Biting.pdf"
     },
     {
       date: "2018-01", year: 2018, type: "paper",
       authors: "Zhuolin Qu, Ling Xue, and James M. Hyman",
       title: "Modeling the transmission of <em>Wolbachia</em> in mosquitoes for controlling mosquito-borne diseases",
-      venue: "SIAM Journal on Applied Mathematics, 78 (2018): 826&ndash;852",
+      venue: "SIAM Journal on Applied Mathematics, (2018), 78: 826&ndash;852",
       link: "publications/Qu-Modeling-SIAP.pdf"
     },
     // ── 2022 ─────────────────────────────────────────────
@@ -451,7 +457,7 @@ var siteData = {
       date: "2021-01", year: 2021, type: "paper",
       authors: "Zhuolin Qu, Asma Azizi, Norine Schmidt, Megan Craig-Kuhn, Charles Stoecker, James Hyman, and Patricia Kissinger",
       title: "Effect of screening young men for Chlamydia trachomatis on the rates among women",
-      venue: "BMJ Open, 11: e040789",
+      venue: "BMJ Open, (2021), 11: e040789",
       link: "https://bmjopen.bmj.com/content/11/1/e040789.full"
     },
 
@@ -478,7 +484,7 @@ var siteData = {
       date: "2019-09", year: 2019, type: "paper",
       authors: "Zhuolin Qu and James M. Hyman",
       title: "Generating a hierarchy of reduced models for a system of differential equations modeling the spread of <em>Wolbachia</em> in mosquitoes",
-      venue: "SIAM Journal on Applied Mathematics, 79: 1675–1699",
+      venue: "SIAM Journal on Applied Mathematics, (2019), 79: 1675–1699",
       link: "publications/Qu-Reduction-SIAP.pdf"
     },
     {
@@ -527,35 +533,35 @@ var siteData = {
       date: "2022-06", year: 2022, type: "paper", field: "numerical",
       authors: "Zhuolin Qu, Alexander Kurganov, and Tong Wu",
       title: "Well-balanced positivity preserving adaptive moving mesh central-upwind schemes for the Saint-Venant system",
-      venue: "ESAIM: Mathematical Modelling and Numerical Analysis, 56 (2022): 1327&ndash;1360",
+      venue: "ESAIM: Mathematical Modelling and Numerical Analysis, (2022), 56: 1327&ndash;1360",
       link: "https://www.esaim-m2an.org/articles/m2an/abs/2022/04/m2an210164/m2an210164.html"
     },
     {
       date: "2021-01", year: 2021, type: "paper", field: "numerical",
       authors: "Zhuolin Qu, Alexander Kurganov, Olga Rozanova, and Tong Wu",
       title: "Adaptive moving mesh central-upwind schemes for hyperbolic system of PDEs: applications to compressible Euler equations and granular hydrodynamics",
-      venue: "Communications on Applied Mathematics and Computation, 3 (2021): 445&ndash;479",
+      venue: "Communications on Applied Mathematics and Computation, (2021), 3: 445&ndash;479",
       link: "https://math.sustech.edu.cn/uploads/20191002/519c9619db739e7eafe738f39ff81fe7.pdf"
     },
     {
       date: "2015-10", year: 2015, type: "paper", field: "numerical",
       authors: "Yuanzhen Cheng, Alexander Kurganov, Zhuolin Qu, and Tao Tang",
       title: "Fast and stable explicit operator splitting methods for phase-field models",
-      venue: "Journal of Computational Physics, 303 (2015): 45&ndash;65",
+      venue: "Journal of Computational Physics, (2015) 303: 45&ndash;65",
       link: "publications/Cheng-Kurganov-Qu-Tang.pdf"
     },
     {
       date: "2015-08", year: 2015, type: "paper", field: "numerical",
       authors: "Chiu-Yen Kao, Alexander Kurganov, Zhuolin Qu, and Ying Wang",
       title: "A fast explicit operator splitting method for modified Buckley-Leverett equations",
-      venue: "Journal of Scientific Computing, 64 (2015): 837&ndash;857",
+      venue: "Journal of Scientific Computing, (2015), 64: 837&ndash;857",
       link: "publications/Kao-Kurganov-Qu-Wang.pdf"
     },
     {
       date: "2013-01", year: 2013, type: "paper", field: "numerical",
       authors: "Alina Chertock, Alexander Kurganov, Zhuolin Qu, and Tong Wu",
       title: "Three-layer approximation of two-layer shallow water equations",
-      venue: "Mathematical Modeling and Analysis, 18 (2013): 675&ndash;693",
+      venue: "Mathematical Modeling and Analysis, (2013), 18: 675&ndash;693",
       link: "publications/Chertock-Kurganov-Qu-Wu.pdf"
     }
 
