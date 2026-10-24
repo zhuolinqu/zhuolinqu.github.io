@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zombie Outbreak: can you save the town?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surround:#DCE3EC; --night:#12203A; --ink:#F4ECDD; --muted:#B9C4D4; --card:#0C1729; --line:#2A3D5E;
+  --human:#F4E6CC; --zombie:#93D24B; --vax:#5EA8FF; --orange:#F15A22; --orange-ink:#FFFFFF;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){ --surround:#070E1A; color-scheme:dark; } }
+:root[data-theme="dark"]{ --surround:#070E1A; color-scheme:dark; }
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--surround);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);overflow:hidden}
+#app{height:100%;display:flex;align-items:center;justify-content:center;padding:clamp(0px,1.2vw,16px)}
+#arena{position:relative;background:var(--night);border-radius:clamp(0px,1vw,16px);overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:pointer}
+.hud{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:clamp(8px,1.4vw,18px) clamp(10px,1.8vw,24px);pointer-events:none;flex-wrap:wrap}
+.brand{font-family:"Creepster","Bricolage Grotesque",fantasy;font-size:clamp(20px,2.4vw,34px);color:var(--zombie);letter-spacing:.03em;pointer-events:auto;touch-action:none}
+.vaxes{display:flex;gap:6px;align-items:center;background:rgba(12,23,41,.85);padding:6px 14px;border-radius:999px;border:1px solid rgba(94,168,255,.45)}
+.vaxes .lbl{font-size:clamp(14px,1.4vw,18px);font-weight:600;color:var(--vax);margin-right:6px}
+.vaxes svg{width:clamp(22px,2.4vw,32px);height:clamp(22px,2.4vw,32px);transition:opacity .2s}
+.vaxes svg.used{opacity:.18}
+.counts{display:flex;gap:8px}
+.pill{display:flex;align-items:center;gap:8px;background:rgba(12,23,41,.85);padding:6px 12px;border-radius:999px;font-size:clamp(14px,1.4vw,19px);font-weight:600;font-variant-numeric:tabular-nums}
+.pill svg{width:20px;height:20px}
+#toast{position:absolute;left:50%;top:clamp(58px,6.4vw,84px);transform:translateX(-50%);background:rgba(12,23,41,.92);border:1px solid var(--line);color:var(--ink);font-weight:600;font-size:clamp(16px,1.9vw,24px);padding:10px 22px;border-radius:999px;pointer-events:none;white-space:nowrap;max-width:94%;overflow:hidden;text-overflow:ellipsis;transition:opacity .3s}
+#toast.off{opacity:0}
+#skipBtn{position:absolute;left:50%;bottom:clamp(14px,2.4vw,32px);transform:translateX(-50%);font:inherit;font-weight:800;font-size:clamp(18px,2vw,26px);min-height:56px;padding:0 28px;border-radius:999px;border:0;background:var(--orange);color:#fff;cursor:pointer;box-shadow:0 5px 0 #A63A12}
+#skipBtn[hidden]{display:none}
+#spark{position:absolute;left:clamp(10px,1.8vw,24px);bottom:clamp(10px,1.8vw,24px);width:clamp(140px,17vw,230px);height:clamp(60px,7vw,96px);background:rgba(12,23,41,.85);border-radius:10px;pointer-events:none}
+.legend{position:absolute;right:clamp(10px,1.8vw,24px);bottom:clamp(10px,1.8vw,24px);background:rgba(12,23,41,.85);border-radius:10px;padding:8px 12px;display:grid;grid-template-columns:auto auto;gap:4px 10px;align-items:center;font-size:clamp(12px,1.15vw,15px);pointer-events:none}
+.legend svg{width:22px;height:22px}
+.overlay{position:absolute;inset:0;display:flex;align-items:safe center;justify-content:center;padding:clamp(12px,3vw,40px);background:rgba(10,18,33,.6);overflow:auto}
+.overlay[hidden]{display:none}
+.startwrap{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:center;max-width:1180px;width:100%}
+.start{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(10px,1.6vw,20px)}
+.start h1{margin:0;font-family:"Creepster","Bricolage Grotesque",fantasy;font-weight:400;font-size:clamp(52px,8.4vw,132px);line-height:.92;color:var(--zombie);letter-spacing:.02em;text-shadow:0 4px 0 #0A1426;touch-action:none}
+.start p{margin:0;font-size:clamp(18px,2.2vw,30px);line-height:1.3;max-width:26ch}
+.play{font:inherit;font-weight:800;font-size:clamp(24px,3vw,42px);padding:.3em 1.5em;min-height:64px;border-radius:999px;border:0;background:var(--orange);color:var(--orange-ink);cursor:pointer;box-shadow:0 6px 0 #A63A12}
+.play:active,#skipBtn:active{transform:translateY(3px);box-shadow:0 3px 0 #A63A12}
+#skipBtn:active{transform:translate(-50%,3px)}
+.play.small{font-size:clamp(18px,1.8vw,22px);min-height:48px;padding:0 22px;box-shadow:0 4px 0 #A63A12}
+button:focus-visible,input:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.board{background:rgba(12,23,41,.9);border:1px solid var(--line);border-radius:16px;padding:clamp(14px,2vw,24px)}
+.board h2{margin:0 0 10px;font-size:clamp(18px,1.9vw,24px);font-weight:600}
+.board ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-variant-numeric:tabular-nums}
+.board li{display:grid;grid-template-columns:2.2em 1fr auto;gap:8px;align-items:center;font-size:clamp(16px,1.7vw,22px);padding:3px 8px;border-radius:8px}
+.board li .rk{color:var(--muted)}
+.board li .in{font-weight:800;letter-spacing:.12em}
+.board li.me{background:rgba(241,90,34,.25)}
+.board .empty{color:var(--muted);font-size:clamp(15px,1.5vw,19px);margin:0}
+.credit{position:absolute;left:clamp(10px,1.8vw,24px);right:clamp(10px,1.8vw,24px);bottom:clamp(8px,1.4vw,18px);font-size:clamp(12px,1.1vw,15px);color:var(--muted);text-align:center;pointer-events:none}
+.how{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,40px);max-width:900px;width:100%;display:flex;flex-direction:column;gap:clamp(14px,2vw,24px);align-items:center;text-align:center}
+.how h2{margin:0;font-size:clamp(26px,3.4vw,46px);font-weight:800;line-height:1.05}
+.cast{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,2vw,28px);width:100%}
+.cast div{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:clamp(15px,1.7vw,22px)}
+.cast svg{width:clamp(48px,6vw,80px);height:clamp(48px,6vw,80px)}
+.cast b{font-weight:800}
+.cast span{color:var(--muted);font-size:.85em}
+.droprow{display:flex;gap:clamp(12px,2.4vw,32px);align-items:center;text-align:left;background:rgba(94,168,255,.1);border:1px solid rgba(94,168,255,.4);border-radius:14px;padding:clamp(10px,1.6vw,18px)}
+.droprow svg{width:clamp(90px,11vw,150px);height:auto;flex:none}
+.droprow p{margin:0;font-size:clamp(16px,1.9vw,25px);line-height:1.35}
+.droprow strong{color:var(--vax)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(14px,2vw,26px);max-width:980px;width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,.85fr);gap:clamp(14px,2.2vw,28px)}
+.card .big{font-size:clamp(40px,5vw,72px);font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--zombie)}
+.card .sub{margin:6px 0 0;font-size:clamp(16px,1.8vw,22px)}
+.card .cmp{margin:10px 0 0;font-size:clamp(14px,1.4vw,18px);color:var(--muted)}
+.sign{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+.sign label{font-weight:600;font-size:clamp(15px,1.5vw,19px)}
+.sign .row{display:flex;gap:8px}
+.sign input{font:inherit;font-weight:800;font-size:clamp(22px,2.4vw,30px);letter-spacing:.3em;text-transform:uppercase;width:6.2em;min-height:48px;padding:0 10px;border-radius:10px;border:2px solid var(--muted);background:#0A1426;color:var(--ink)}
+.sign[hidden]{display:none}
+.sign .msg{margin:0;font-size:clamp(14px,1.4vw,17px);color:var(--muted);min-height:1.3em}
+.rankline[hidden]{display:none}
+.rankline{margin-top:14px;font-size:clamp(18px,2vw,26px);font-weight:800;color:var(--orange)}
+.chartbox h2,.mathbox h2{margin:0 0 8px;font-size:clamp(14px,1.4vw,18px);font-weight:600;color:var(--muted)}
+#endChart{width:100%;height:auto;aspect-ratio:2.4/1;display:block}
+.key{display:flex;gap:14px;font-size:clamp(12px,1.2vw,15px);color:var(--muted);margin-top:6px;flex-wrap:wrap}
+.key span{display:flex;align-items:center;gap:6px}
+.key b{display:inline-block;width:18px;height:3px;border-radius:2px}
+.card .board{padding:12px 14px}
+.card .board li{font-size:clamp(14px,1.4vw,18px)}
+.mathbox{grid-column:1/-1;border-top:1px solid var(--line);padding-top:clamp(10px,1.4vw,16px);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:8px clamp(12px,2vw,28px);align-items:center}
+.why{display:contents}
+.why h2,.tree{grid-column:1/-1}
+.tree{width:100%;height:auto;display:block;max-height:19vh;margin:0 0 4px}
+.cap{margin:0!important}
+.mathbox p{margin:0;font-size:clamp(14px,1.45vw,18px);line-height:1.45}
+.eq{font-family:"Cambria Math","STIX Two Math","Latin Modern Math","Times New Roman",serif;font-size:1.25em;white-space:nowrap}
+.tip{background:rgba(94,168,255,.12);border:1px solid rgba(94,168,255,.45);border-radius:12px;padding:10px 14px}
+.actions .play{font-size:clamp(22px,2.4vw,34px);min-height:56px}
+.actions{grid-column:1/-1;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap}
+.challenge{font-size:clamp(16px,1.7vw,22px);font-weight:600}
+.ghost{font:inherit;font-weight:600;font-size:clamp(15px,1.5vw,19px);min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--muted);background:transparent;color:var(--ink);cursor:pointer}
+#fsBtn{position:absolute;right:clamp(10px,1.8vw,24px);top:clamp(10px,1.4vw,18px);font-size:14px;background:rgba(12,23,41,.85)}
+.staff{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;max-width:520px;width:100%;display:flex;flex-direction:column;gap:14px}
+.staff h2{margin:0;font-size:22px}
+.staff ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;max-height:50vh;overflow:auto}
+.staff li{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:18px}
+.staff .danger{border-color:var(--orange);color:#FFB89C}
+.staff .rowb{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between}
+@media (max-width:820px){ .startwrap,.card,.mathbox{grid-template-columns:1fr} .start{align-items:center;text-align:center} .credit{display:none} .legend{display:none} .cast{grid-template-columns:1fr} }
+@media (prefers-reduced-motion:reduce){ .vaxes svg,#toast{transition:none} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-person" viewBox="0 0 40 40"><circle cx="20" cy="20" r="13" fill="#F4E6CC"/><circle cx="15.5" cy="18" r="2.2" fill="#12203A"/><circle cx="24.5" cy="18" r="2.2" fill="#12203A"/></symbol>
+    <symbol id="i-zombie" viewBox="0 0 40 40"><path d="M27 14h11M27 26h11" stroke="#2F5A12" stroke-width="3.4" stroke-linecap="round"/><path d="M27 14h10M27 26h10" stroke="#93D24B" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="20" r="14" fill="#93D24B" stroke="#2F5A12" stroke-width="2.5"/><path d="M11.5 15.5l4 4M15.5 15.5l-4 4M20.5 15.5l4 4M24.5 15.5l-4 4" stroke="#1D3A0A" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-vax" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="none" stroke="#FFFFFF" stroke-width="2.5"/><circle cx="20" cy="20" r="12" fill="#5EA8FF"/><circle cx="16" cy="18.5" r="2" fill="#12203A"/><circle cx="24" cy="18.5" r="2" fill="#12203A"/></symbol>
+    <symbol id="i-dead" viewBox="0 0 40 40"><path d="M13 13l14 14M27 13L13 27" stroke="#566A8A" stroke-width="3.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-syringe" viewBox="0 0 24 24"><g fill="none" stroke="#5EA8FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2l4 4"/><path d="M17 7l3-3"/><path d="M19 9L9 19l-4 1 1-4L16 6z"/><path d="M14 8l2 2"/><path d="M11 11l2 2"/><path d="M3 21l3-3"/></g></symbol>
+  </defs>
+</svg>
+<div id="app">
+  <div id="arena">
+    <canvas id="c" role="img" aria-label="A town seen from above. Cream dots are people, green dots with arms are zombies, blue ringed dots are vaccinated people."></canvas>
+
+    <div class="hud" id="hud">
+      <div class="brand" id="brand">Zombie Outbreak</div>
+      <div class="vaxes" id="vaxes" aria-label="Vaccines left"><span class="lbl">Vaccines left</span></div>
+      <div class="counts">
+        <div class="pill"><svg aria-hidden="true"><use href="#i-person"/></svg><span id="nH">300</span>&nbsp;people</div>
+        <div class="pill"><svg aria-hidden="true"><use href="#i-zombie"/></svg><span id="nZ">0</span>&nbsp;zombies</div>
+      </div>
+    </div>
+    <canvas id="spark" aria-hidden="true"></canvas>
+    <div class="legend" id="legend" aria-hidden="true">
+      <svg><use href="#i-person"/></svg><span>Person</span>
+      <svg><use href="#i-zombie"/></svg><span>Zombie (bites)</span>
+      <svg><use href="#i-vax"/></svg><span>Vaccinated (safe)</span>
+      <svg><use href="#i-dead"/></svg><span>Zombie collapsed</span>
+    </div>
+    <div id="toast" class="off" role="status" aria-live="polite"></div>
+    <button type="button" id="skipBtn" hidden>Skip to results</button>
+    <button class="ghost" id="fsBtn" type="button">Full screen</button>
+
+    <div class="overlay" id="startOv">
+      <div class="startwrap">
+        <div class="start">
+          <h1 id="title">Zombie Outbreak</h1>
+          <p>A zombie is about to appear in town. You have 6 vaccines. Can you save the town?</p>
+          <button class="play" id="playBtn" type="button">Play</button>
+        </div>
+        <div class="board" aria-labelledby="bTitle">
+          <h2 id="bTitle">Today’s top 10</h2>
+          <ol id="boardStart"></ol>
+        </div>
+      </div>
+      <div class="credit">Dr. Zhuolin Qu, Department of Mathematics, UTSA. In my research, the zombies are mosquitoes.</div>
+    </div>
+
+    <div class="overlay" id="howOv" hidden>
+      <div class="how">
+        <h2>How to play</h2>
+        <div class="cast">
+          <div><svg aria-hidden="true"><use href="#i-person"/></svg><b>Person</b><span>Wanders around town</span></div>
+          <div><svg aria-hidden="true"><use href="#i-zombie"/></svg><b>Zombie</b><span>Bites people and turns them into zombies</span></div>
+          <div><svg aria-hidden="true"><use href="#i-vax"/></svg><b>Vaccinated</b><span>Can’t be bitten</span></div>
+        </div>
+        <div class="droprow">
+          <svg viewBox="0 0 150 110" aria-hidden="true">
+            <circle cx="62" cy="58" r="44" fill="rgba(94,168,255,.22)" stroke="#5EA8FF" stroke-width="3" stroke-dasharray="7 6"/>
+            <use href="#i-vax" x="34" y="34" width="22" height="22"/><use href="#i-vax" x="62" y="54" width="22" height="22"/><use href="#i-vax" x="42" y="66" width="22" height="22"/><use href="#i-vax" x="70" y="26" width="22" height="22"/>
+            <use href="#i-person" x="114" y="20" width="22" height="22"/><use href="#i-person" x="118" y="72" width="22" height="22"/>
+          </svg>
+          <p><strong>Tap the map to drop a vaccine.</strong> Everyone inside the blue bubble is protected. Zombies collapse on their own after a while.</p>
+        </div>
+        <button class="play" id="goBtn" type="button">Start</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="endOv" hidden>
+      <div class="card">
+        <div>
+          <div class="big" id="savedPct">0%</div>
+          <p class="sub">of the town survived</p>
+          <p class="cmp" id="cmpLine"></p>
+          <div class="sign" id="signBox">
+            <label for="ini">You made today’s top 10! Your initials:</label>
+            <div class="row"><input id="ini" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="iniMsg"><button class="play small" id="saveIni" type="button">Save</button></div>
+            <p class="msg" id="iniMsg">Up to 4 letters.</p>
+          </div>
+          <div class="rankline" id="rankLine" hidden></div>
+        </div>
+        <div class="chartbox">
+          <h2>Zombies over time</h2>
+          <canvas id="endChart" width="840" height="350" aria-label="Chart of zombie numbers over time, your game compared with no vaccines"></canvas>
+          <div class="key"><span><b style="background:var(--zombie)"></b>Your game</span><span><b style="background:#8E9BB0"></b>No vaccines</span></div>
+        </div>
+        <div class="board">
+          <h2>Today’s top 10</h2>
+          <ol id="boardEnd"></ol>
+        </div>
+        <div class="mathbox">
+          <div class="why">
+            <h2>Why vaccines stop an outbreak</h2>
+            <svg class="tree" viewBox="0 0 600 132" role="img" aria-label="Without vaccines, one zombie makes 3, then 9, then 27. With 2 of every 3 people protected, one zombie makes only 1, then 1: the outbreak can’t grow.">
+              <g font-family="Bricolage Grotesque, system-ui, sans-serif">
+                <text x="0" y="40" font-size="17" font-weight="600" fill="#F4ECDD">No vaccines</text>
+                <text x="148" y="14" font-size="13" fill="#B9C4D4" text-anchor="middle">1</text>
+                <use href="#i-zombie" x="136" y="22" width="24" height="24"/>
+                <path d="M170 34h24m-6-5l6 5-6 5" stroke="#B9C4D4" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="238" y="14" font-size="13" fill="#B9C4D4" text-anchor="middle">3</text>
+                <use href="#i-zombie" x="202" y="22" width="24" height="24"/><use href="#i-zombie" x="226" y="22" width="24" height="24"/><use href="#i-zombie" x="250" y="22" width="24" height="24"/>
+                <path d="M282 34h24m-6-5l6 5-6 5" stroke="#B9C4D4" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="388" y="14" font-size="13" fill="#B9C4D4" text-anchor="middle">9</text>
+                <use href="#i-zombie" x="314" y="25" width="18" height="18"/><use href="#i-zombie" x="332" y="25" width="18" height="18"/><use href="#i-zombie" x="350" y="25" width="18" height="18"/><use href="#i-zombie" x="368" y="25" width="18" height="18"/><use href="#i-zombie" x="386" y="25" width="18" height="18"/><use href="#i-zombie" x="404" y="25" width="18" height="18"/><use href="#i-zombie" x="422" y="25" width="18" height="18"/><use href="#i-zombie" x="440" y="25" width="18" height="18"/><use href="#i-zombie" x="458" y="25" width="18" height="18"/>
+                <path d="M484 34h24m-6-5l6 5-6 5" stroke="#B9C4D4" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="516" y="40" font-size="18" font-weight="800" fill="#93D24B">27, 81…</text>
+
+                <text x="0" y="104" font-size="17" font-weight="600" fill="#F4ECDD">2 of 3</text>
+                <text x="0" y="123" font-size="17" font-weight="600" fill="#F4ECDD">vaccinated</text>
+                <text x="148" y="80" font-size="13" fill="#B9C4D4" text-anchor="middle">1</text>
+                <use href="#i-zombie" x="136" y="88" width="24" height="24"/>
+                <path d="M170 100h24m-6-5l6 5-6 5" stroke="#B9C4D4" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="214" y="80" font-size="13" fill="#B9C4D4" text-anchor="middle">1</text>
+                <use href="#i-zombie" x="202" y="88" width="24" height="24"/><use href="#i-vax" x="228" y="88" width="24" height="24"/><use href="#i-vax" x="252" y="88" width="24" height="24"/>
+                <path d="M282 100h24m-6-5l6 5-6 5" stroke="#B9C4D4" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="326" y="80" font-size="13" fill="#B9C4D4" text-anchor="middle">1</text>
+                <use href="#i-zombie" x="314" y="88" width="24" height="24"/><use href="#i-vax" x="340" y="88" width="24" height="24"/><use href="#i-vax" x="364" y="88" width="24" height="24"/>
+                <path d="M396 100h24m-6-5l6 5-6 5" stroke="#B9C4D4" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="428" y="106" font-size="18" font-weight="800" fill="#5EA8FF">1, 1… can’t grow</text>
+              </g>
+            </svg>
+            <p class="cap">Each zombie bites about 3 people (<em>R</em>₀ ≈ 3). Protect more than <span class="eq">1 − 1/<em>R</em>₀ ≈ 67%</span> and the outbreak dies out. That’s <b>herd immunity</b>.</p>
+          </div>
+          <p class="tip" id="tipLine"></p>
+        </div>
+        <div class="actions">
+          <span class="challenge" id="challenge"></span>
+          <button class="play" id="againBtn" type="button">Play again</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="staffOv" hidden>
+      <div class="staff" role="dialog" aria-labelledby="staffTitle">
+        <h2 id="staffTitle">Staff: today’s scores</h2>
+        <ol id="staffList"></ol>
+        <div class="rowb">
+          <button class="ghost danger" id="clearAll" type="button">Clear all scores</button>
+          <button class="ghost" id="staffClose" type="button">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function makeRng(seed){let s=seed>>>0;return()=>{s=(s+0x6D2B79F5)>>>0;let t=s;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296;};}
+function Engine(opt){
+  const o=Object.assign({N:260,W:1000,H:625,vH:42,vZ:30,turn:2.2,rb:11,beta:3.0,life:6.5,seed:1},opt);
+  const N=o.N,rnd=makeRng(o.seed);
+  const x=new Float32Array(N),y=new Float32Array(N),a=new Float32Array(N),st=new Uint8Array(N),tz=new Float32Array(N),bites=new Uint16Array(N),tdead=new Float32Array(N);
+  for(let i=0;i<N;i++){x[i]=20+rnd()*(o.W-40);y[i]=20+rnd()*(o.H-40);a[i]=rnd()*6.2832;}
+  const gauss=()=>{let u=1-rnd(),v=rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(6.2832*v);};
+  const E={o,x,y,a,st,tz,bites,tdead,t:0,hist:[],rnd,started:false};
+  const cs=o.rb, gx=Math.ceil(o.W/cs), gy=Math.ceil(o.H/cs);
+  const head=new Int32Array(gx*gy), next=new Int32Array(N);
+  E.counts=()=>{const c=[0,0,0,0];for(let i=0;i<N;i++)c[st[i]]++;return c;}; // S,Z,R,V
+  E.seedZombie=(px,py)=>{let best=-1,bd=1e9;for(let i=0;i<N;i++){if(st[i])continue;const d=(x[i]-px)**2+(y[i]-py)**2;if(d<bd){bd=d;best=i;}}
+    if(best>=0){st[best]=1;tz[best]=o.life*(0.6+0.8*rnd());E.started=true;}return best;};
+  E.vaccinate=(px,py,R)=>{let n=0;for(let i=0;i<N;i++){if(st[i]===0&&(x[i]-px)**2+(y[i]-py)**2<R*R){st[i]=3;n++;}}return n;};
+  E.step=(dt)=>{
+    for(let i=0;i<N;i++){
+      if(st[i]===2){tdead[i]+=dt;continue;}
+      a[i]+=gauss()*o.turn*Math.sqrt(dt);
+      const v=st[i]===1?o.vZ:o.vH;
+      x[i]+=Math.cos(a[i])*v*dt;y[i]+=Math.sin(a[i])*v*dt;
+      if(x[i]<6){x[i]=6;a[i]=Math.PI-a[i];} if(x[i]>o.W-6){x[i]=o.W-6;a[i]=Math.PI-a[i];}
+      if(y[i]<6){y[i]=6;a[i]=-a[i];} if(y[i]>o.H-6){y[i]=o.H-6;a[i]=-a[i];}
+    }
+    head.fill(-1);
+    for(let i=0;i<N;i++){if(st[i]!==0)continue;const c=Math.min(gy-1,(y[i]/cs)|0)*gx+Math.min(gx-1,(x[i]/cs)|0);next[i]=head[c];head[c]=i;}
+    const pb=1-Math.exp(-o.beta*dt), newZ=[];
+    for(let i=0;i<N;i++){
+      if(st[i]!==1)continue;
+      const cx=(x[i]/cs)|0,cy=(y[i]/cs)|0;
+      for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+        const X=cx+dx,Y=cy+dy;if(X<0||Y<0||X>=gx||Y>=gy)continue;
+        for(let j=head[Y*gx+X];j>=0;j=next[j]){
+          if((x[j]-x[i])**2+(y[j]-y[i])**2<o.rb*o.rb && rnd()<pb){newZ.push(j);bites[i]++;}
+        }
+      }
+      tz[i]-=dt; if(tz[i]<=0){st[i]=2;tdead[i]=0;}
+    }
+    for(const j of newZ){if(st[j]===0){st[j]=1;tz[j]=o.life*(0.6+0.8*rnd());}}
+    E.t+=dt;
+  };
+  E.over=()=>{if(!E.started)return false;for(let i=0;i<N;i++)if(st[i]===1)return false;return true;};
+  return E;
+}
+
+
+(function(){
+  const P={N:300,W:1000,H:625,rb:15,beta:12,life:3.6,vH:110,vZ:80,turn:3};
+  const DOSES=6, RV=90, P0_DELAY=1.4, DT=1/60, FF=2.5, FF_WAIT=3, FF_RAMP=2;
+  const $=id=>document.getElementById(id);
+  const cv=$('c'), ctx=cv.getContext('2d'), spark=$('spark'), sctx=spark.getContext('2d'), arena=$('arena');
+  let dpr=1;
+
+  function fit(){
+    const app=$('app'), cs=getComputedStyle(app);
+    const aw=app.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+    const ah=app.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
+    let w=aw,h=aw/1.6; if(h>ah){h=ah;w=ah*1.6;}
+    arena.style.width=w+'px'; arena.style.height=h+'px';
+    dpr=Math.min(2,window.devicePixelRatio||1);
+    cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+    const sr=spark.getBoundingClientRect(); spark.width=Math.round(sr.width*dpr); spark.height=Math.round(sr.height*dpr);
+  }
+  window.addEventListener('resize',fit);
+  document.addEventListener('fullscreenchange',()=>setTimeout(fit,60));
+
+  const icons=[]; for(let i=0;i<DOSES;i++){const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('aria-hidden','true');s.innerHTML='<use href="#i-syringe"/>';$('vaxes').appendChild(s);icons.push(s);}
+  function setDoses(n){icons.forEach((s,i)=>s.classList.toggle('used',i>=n));}
+
+  // ---------- today's town and leaderboard ----------
+  function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  function hashStr(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;}
+  const BKEY=()=>'zombie-board-'+today();
+  let memBoard=[];
+  function loadBoard(){try{const v=localStorage.getItem(BKEY());return v?JSON.parse(v):[];}catch(e){return memBoard;}}
+  function saveBoard(b){b.sort((a,c)=>c.p-a.p||a.t-c.t); memBoard=b; try{localStorage.setItem(BKEY(),JSON.stringify(b));}catch(e){}}
+  function qualifies(p){const b=loadBoard();return b.length<10||p>b[Math.min(9,b.length-1)].p;}
+  function renderBoard(el,meId){
+    const b=loadBoard().slice(0,10); el.innerHTML='';
+    if(!b.length){const p=document.createElement('p');p.className='empty';p.textContent='No scores yet today. Be the first!';el.appendChild(p);return;}
+    b.forEach((e,i)=>{const li=document.createElement('li'); if(e.t===meId)li.className='me';
+      const rk=document.createElement('span');rk.className='rk';rk.textContent='#'+(i+1);
+      const nm=document.createElement('span');nm.className='in';nm.textContent=e.i;
+      const pc=document.createElement('span');pc.textContent=e.p+'%';
+      li.append(rk,nm,pc); el.appendChild(li);});
+  }
+  const BLOCK=['FUK','FUC','FCK','SHT','SHIT','ASS','CUM','SEX','DIK','DICK','COCK','TIT','CNT','CUNT','PISS','WTF','HOE','SLUT','PUSS','NAZI','KKK','NIG','FAG','RAPE','BUTT','STFU','KYS'];
+  function cleanInitials(s){const t=(s||'').toUpperCase().replace(/[^A-Z]/g,'').slice(0,4); if(!t)return {ok:false,msg:'Type 1 to 4 letters.'}; if(BLOCK.some(w=>t.includes(w)))return {ok:false,msg:'Try different initials.'}; return {ok:true,v:t};}
+
+  // ---------- game state ----------
+  let outAt=-1, ffShown=false, mode='attract', E=null, left=DOSES, hist=[], base=[], baseSurv=0, p0=null, p0i=-1, rings=[], floats=[], endAt=0, lastInput=performance.now(), hover=null, attractWait=0, lastScore=null, savedId=null, hk=0;
+  let dayCache={day:null};
+  const toast=$('toast');
+  function say(m){toast.textContent=m;toast.classList.remove('off');}
+  function hush(){toast.classList.add('off');}
+  function showOnly(id){['startOv','howOv','endOv','staffOv'].forEach(k=>$(k).hidden=(k!==id));}
+  function setPlayChrome(on){$('hud').style.visibility=on?'visible':'hidden';spark.style.visibility=on?'visible':'hidden';$('legend').style.visibility=on?'visible':'hidden';$('fsBtn').style.visibility=on?'hidden':'visible';}
+
+  function makeTown(seed){const e=Engine(Object.assign({seed},P));const r=makeRng(seed^0x9e3779b9);return {e,px:200+r()*600,py:130+r()*365};}
+  function dayTown(){
+    const d=today(); if(dayCache.day!==d){
+      const seed=hashStr('roadrunner-'+d); const t=makeTown(seed);
+      const b=makeTown(seed); const h=[]; let k=0,seeded=false;
+      while(b.e.t<240){if(!seeded&&b.e.t>=P0_DELAY){b.e.seedZombie(t.px,t.py);seeded=true;} b.e.step(DT); if(++k%15===0)h.push(b.e.counts()[1]); if(b.e.over())break;}
+      h.push(0); dayCache={day:d,seed,px:t.px,py:t.py,base:h,surv:b.e.counts()[0]/P.N};
+    }
+    return dayCache;
+  }
+
+  function startAttract(){
+    mode='attract'; const t=makeTown((Math.random()*1e9)|0); E=t.e; p0={x:t.px,y:t.py}; p0i=-1; rings=[]; floats=[]; attractWait=0;
+    showOnly('startOv'); hush(); $('skipBtn').hidden=true; setPlayChrome(false); renderBoard($('boardStart'));
+  }
+  function showHow(){ mode='how'; showOnly('howOv'); $('goBtn').focus({preventScroll:true}); }
+  function startGame(){
+    mode='play'; const d=dayTown(); const t=makeTown(d.seed); E=t.e; p0={x:d.px,y:d.py}; p0i=-1; hist=[]; rings=[]; floats=[]; endAt=0; hk=0;
+    base=d.base; baseSurv=d.surv; left=DOSES; setDoses(left); savedId=null; outAt=-1; ffShown=false;
+    showOnly(null); setPlayChrome(true); $('skipBtn').hidden=true;
+    say('Get ready… a zombie is coming');
+  }
+  function endGame(){
+    mode='end'; hush(); $('skipBtn').hidden=true;
+    const c=E.counts(); const saved=c[0]+c[3]; const pct=Math.round(saved/P.N*100); lastScore=pct;
+    $('savedPct').textContent=pct+'%';
+    const diff=saved-Math.round(baseSurv*P.N);
+    $('cmpLine').textContent='With no vaccines, '+Math.round(baseSurv*100)+'% survive in this town. '+(diff>0?('You saved '+diff+' extra people.'):'Try dropping your vaccines sooner.');
+    const q=qualifies(pct);
+    $('signBox').hidden=!q; $('rankLine').hidden=true; $('ini').value=''; $('iniMsg').textContent='Up to 4 letters.';
+    if(!q){const b=loadBoard(); $('rankLine').hidden=false; $('rankLine').textContent='Top 10 today needs more than '+b[Math.min(9,b.length-1)].p+'%.';}
+    const vp=Math.round(c[3]/P.N*100);
+    $('tipLine').innerHTML = left===DOSES ? '<b>Tip:</b> tap the map to drop vaccines. Everyone inside the blue bubble is protected.'
+      : ('You vaccinated only <b>'+vp+'%</b> of the town. Smart placement helps: <b>drop vaccines early, in a ring around patient zero.</b>');
+    renderBoard($('boardEnd')); updateChallenge(); drawEndChart();
+    showOnly('endOv'); setPlayChrome(false); $('hud').style.visibility='visible'; $('fsBtn').style.visibility='hidden';
+    if(q) setTimeout(()=>$('ini').focus({preventScroll:true}),50); else $('againBtn').focus({preventScroll:true});
+  }
+  function updateChallenge(){const b=loadBoard(); $('challenge').textContent=b.length?('Next player: can you beat '+b[0].i+'’s '+b[0].p+'%?'):'';}
+  function saveInitials(){
+    const r=cleanInitials($('ini').value); if(!r.ok){$('iniMsg').textContent=r.msg;return;}
+    const b=loadBoard(); const id=Date.now(); b.push({i:r.v,p:lastScore,t:id}); saveBoard(b); savedId=id;
+    const rank=loadBoard().findIndex(e=>e.t===id)+1;
+    $('signBox').hidden=true; $('rankLine').hidden=false; $('rankLine').textContent=rank===1?'You’re #1 today!':('You’re #'+rank+' today!');
+    renderBoard($('boardEnd'),id); updateChallenge(); $('againBtn').focus({preventScroll:true});
+  }
+  function skipToEnd(){ let n=0; while(!E.over()&&n<60*240){E.step(DT); if(++hk%15===0)hist.push(E.counts()[1]); n++;} hist.push(0); endGame(); }
+
+  // ---------- input ----------
+  function toArena(ev){const r=cv.getBoundingClientRect();return {x:(ev.clientX-r.left)/r.width*P.W,y:(ev.clientY-r.top)/r.height*P.H};}
+  cv.addEventListener('pointerdown',ev=>{
+    lastInput=performance.now();
+    if(mode!=='play'||left<=0)return;
+    const pt=toArena(ev); const n=E.vaccinate(pt.x,pt.y,RV); left--; setDoses(left);
+    rings.push({x:pt.x,y:pt.y,t:0}); floats.push({x:pt.x,y:pt.y,t:0,txt:'+'+n+' protected'});
+    if(left===0&&p0i>=0){ outAt=E.t; say('Out of vaccines. Let’s see what happens…'); $('skipBtn').hidden=false; }
+    else if(p0i>=0) say(left+' vaccine'+(left===1?'':'s')+' left');
+  });
+  cv.addEventListener('pointermove',ev=>{ if(ev.pointerType==='mouse') hover=toArena(ev); });
+  cv.addEventListener('pointerleave',()=>hover=null);
+  $('playBtn').addEventListener('click',()=>{lastInput=performance.now();showHow();});
+  $('goBtn').addEventListener('click',()=>{lastInput=performance.now();startGame();});
+  $('againBtn').addEventListener('click',()=>{lastInput=performance.now();startGame();});
+  $('skipBtn').addEventListener('click',()=>{lastInput=performance.now();if(mode==='play')skipToEnd();});
+  $('saveIni').addEventListener('click',()=>{lastInput=performance.now();saveInitials();});
+  $('ini').addEventListener('keydown',ev=>{lastInput=performance.now(); if(ev.key==='Enter')saveInitials();});
+  $('ini').addEventListener('input',()=>{const v=$('ini').value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,4); if(v!==$('ini').value)$('ini').value=v;});
+  $('fsBtn').addEventListener('click',()=>{lastInput=performance.now(); if(document.fullscreenElement)document.exitFullscreen?.(); else document.documentElement.requestFullscreen?.();});
+
+  // staff: press and hold the title for 3 seconds
+  function holdToOpen(el){ let tm=0;
+    const go=()=>{clearTimeout(tm);tm=setTimeout(openStaff,3000);}; const stop=()=>clearTimeout(tm);
+    el.addEventListener('pointerdown',go); ['pointerup','pointerleave','pointercancel'].forEach(k=>el.addEventListener(k,stop));
+    el.addEventListener('contextmenu',e=>e.preventDefault()); }
+  holdToOpen($('title')); holdToOpen($('brand'));
+  let staffPrev='startOv', clearArmed=false;
+  function openStaff(){ staffPrev=mode; if(mode==='play'){skipQuiet();} mode='staff'; clearArmed=false; hush(); $('skipBtn').hidden=true; setPlayChrome(false); $('clearAll').textContent='Clear all scores'; renderStaff(); showOnly('staffOv'); $('staffClose').focus({preventScroll:true}); }
+  function skipQuiet(){ while(!E.over()&&E.t<300)E.step(DT); }
+  function renderStaff(){ const ol=$('staffList'); ol.innerHTML=''; const b=loadBoard();
+    if(!b.length){const li=document.createElement('li');li.textContent='No scores today.';ol.appendChild(li);}
+    b.forEach((e,i)=>{const li=document.createElement('li'); const s=document.createElement('span'); s.textContent='#'+(i+1)+'  '+e.i+'  '+e.p+'%';
+      const del=document.createElement('button'); del.type='button'; del.className='ghost'; del.textContent='Delete';
+      del.addEventListener('click',()=>{saveBoard(loadBoard().filter(x=>x.t!==e.t)); renderStaff();}); li.append(s,del); ol.appendChild(li);});
+  }
+  $('clearAll').addEventListener('click',()=>{ if(!clearArmed){clearArmed=true;$('clearAll').textContent='Tap again to clear everything';return;} saveBoard([]); clearArmed=false; $('clearAll').textContent='Cleared'; renderStaff(); });
+  $('staffClose').addEventListener('click',()=>{lastInput=performance.now(); startAttract();});
+
+  // ---------- drawing ----------
+  function drawWorld(now){
+    const w=cv.width,h=cv.height,s=w/P.W;
+    ctx.fillStyle='#12203A'; ctx.fillRect(0,0,w,h);
+    ctx.strokeStyle='rgba(255,255,255,0.05)'; ctx.lineWidth=10*s; ctx.beginPath();
+    for(let k=1;k<8;k++){ctx.moveTo(k*P.W/8*s,0);ctx.lineTo(k*P.W/8*s,h);} for(let k=1;k<5;k++){ctx.moveTo(0,k*P.H/5*s);ctx.lineTo(w,k*P.H/5*s);} ctx.stroke();
+    const x=E.x,y=E.y,st=E.st,a=E.a,r=6*s;
+    // vaccine bubbles (behind people)
+    for(const g of rings){ const k=Math.min(1,g.t/0.5), fade=g.t<1.2?1:Math.max(0,1-(g.t-1.2)/0.8); if(fade<=0)continue;
+      ctx.fillStyle='rgba(94,168,255,'+(0.2*fade)+')'; ctx.strokeStyle='rgba(94,168,255,'+(0.9*fade)+')'; ctx.lineWidth=3*s; ctx.setLineDash([10*s,8*s]);
+      ctx.beginPath(); ctx.arc(g.x*s,g.y*s,RV*s*(0.3+0.7*k),0,6.2832); ctx.fill(); ctx.stroke(); ctx.setLineDash([]); }
+    // collapsed zombies
+    ctx.strokeStyle='#3E5070'; ctx.lineWidth=2*s; ctx.beginPath();
+    for(let i=0;i<P.N;i++) if(st[i]===2){const q=r*0.55;ctx.moveTo(x[i]*s-q,y[i]*s-q);ctx.lineTo(x[i]*s+q,y[i]*s+q);ctx.moveTo(x[i]*s+q,y[i]*s-q);ctx.lineTo(x[i]*s-q,y[i]*s+q);} ctx.stroke();
+    // people and vaccinated
+    ctx.fillStyle='#F4E6CC'; ctx.beginPath(); for(let i=0;i<P.N;i++) if(st[i]===0){ctx.moveTo(x[i]*s+r,y[i]*s);ctx.arc(x[i]*s,y[i]*s,r,0,6.2832);} ctx.fill();
+    ctx.fillStyle='#5EA8FF'; ctx.beginPath(); for(let i=0;i<P.N;i++) if(st[i]===3){ctx.moveTo(x[i]*s+r*.85,y[i]*s);ctx.arc(x[i]*s,y[i]*s,r*.85,0,6.2832);} ctx.fill();
+    ctx.strokeStyle='#FFFFFF'; ctx.lineWidth=1.8*s; ctx.beginPath(); for(let i=0;i<P.N;i++) if(st[i]===3){ctx.moveTo(x[i]*s+r*1.25,y[i]*s);ctx.arc(x[i]*s,y[i]*s,r*1.25,0,6.2832);} ctx.stroke();
+    // eyes on people and vaccinated (look where they walk)
+    ctx.fillStyle='#12203A'; ctx.beginPath();
+    for(let i=0;i<P.N;i++) if(st[i]===0||st[i]===3){const ex=Math.cos(a[i])*r*.25, ey=Math.sin(a[i])*r*.25; const e=r*0.2;
+      ctx.moveTo(x[i]*s-r*.35+ex+e,y[i]*s-r*.15+ey);ctx.arc(x[i]*s-r*.35+ex,y[i]*s-r*.15+ey,e,0,6.2832);
+      ctx.moveTo(x[i]*s+r*.35+ex+e,y[i]*s-r*.15+ey);ctx.arc(x[i]*s+r*.35+ex,y[i]*s-r*.15+ey,e,0,6.2832);} ctx.fill();
+    // zombies: arms out, wobble, X eyes
+    const rz=r*1.3;
+    for(let i=0;i<P.N;i++){ if(st[i]!==1)continue;
+      const wb=Math.sin(now/110+i*1.7)*0.25, cx=x[i]*s, cy=y[i]*s, ca=Math.cos(a[i]+wb), sa=Math.sin(a[i]+wb);
+      ctx.strokeStyle='#2F5A12'; ctx.lineWidth=3.4*s; ctx.lineCap='round'; ctx.beginPath();
+      for(const side of [-1,1]){const bx=cx-sa*side*rz*.55+ca*rz*.6, by=cy+ca*side*rz*.55+sa*rz*.6; ctx.moveTo(bx,by); ctx.lineTo(bx+ca*rz*0.9,by+sa*rz*0.9);} ctx.stroke();
+      ctx.strokeStyle='#93D24B'; ctx.lineWidth=1.8*s; ctx.stroke();
+      ctx.fillStyle='#93D24B'; ctx.strokeStyle='#2F5A12'; ctx.lineWidth=2*s; ctx.beginPath(); ctx.arc(cx,cy,rz,0,6.2832); ctx.fill(); ctx.stroke();
+      ctx.strokeStyle='#1D3A0A'; ctx.lineWidth=1.6*s; ctx.beginPath(); const e=rz*0.2;
+      for(const ox of [-0.38,0.38]){const ex=cx+ox*rz, ey=cy-0.12*rz; ctx.moveTo(ex-e,ey-e);ctx.lineTo(ex+e,ey+e);ctx.moveTo(ex+e,ey-e);ctx.lineTo(ex-e,ey+e);} ctx.stroke();
+    }
+    // patient zero pulse
+    if(p0i>=0 && E.t-P0_DELAY<3 && st[p0i]===1){ const ph=((E.t-P0_DELAY)%0.8)/0.8;
+      ctx.strokeStyle='rgba(147,210,75,'+(1-ph)+')'; ctx.lineWidth=3*s; ctx.beginPath(); ctx.arc(x[p0i]*s,y[p0i]*s,(14+44*ph)*s,0,6.2832); ctx.stroke(); }
+    // floating labels
+    ctx.textAlign='center'; ctx.font='800 '+Math.round(18*s)+'px "Bricolage Grotesque",system-ui,sans-serif';
+    for(const f of floats){ if(f.t>1.6)continue; const al=f.t<1?1:1-(f.t-1)/0.6; ctx.fillStyle='rgba(255,255,255,'+al+')'; ctx.strokeStyle='rgba(18,32,58,'+al+')'; ctx.lineWidth=4*s;
+      const yy=(f.y-RV*0.2-30*f.t)*s; ctx.strokeText(f.txt,f.x*s,yy); ctx.fillText(f.txt,f.x*s,yy); }
+    // hover preview
+    if(mode==='play'&&hover&&left>0){ctx.setLineDash([8*s,8*s]);ctx.strokeStyle='rgba(94,168,255,.85)';ctx.lineWidth=2*s;ctx.beginPath();ctx.arc(hover.x*s,hover.y*s,RV*s,0,6.2832);ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle='rgba(94,168,255,.95)'; ctx.font='600 '+Math.round(14*s)+'px "Bricolage Grotesque",system-ui,sans-serif'; ctx.fillText('Click to vaccinate',hover.x*s,(hover.y-RV-8)*s);}
+  }
+  function drawCurve(c2,W,H,pad,series,maxT,maxY){
+    const X=t=>pad+(W-2*pad)*t/maxT, Y=v=>H-pad-(H-2*pad)*v/maxY;
+    for(const sr of series){ if(!sr.d.length)continue; c2.strokeStyle=sr.col; c2.lineWidth=sr.lw; c2.setLineDash(sr.dash||[]); c2.lineJoin='round'; c2.beginPath();
+      sr.d.forEach((v,i)=>{const px=X(i),py=Y(v); i?c2.lineTo(px,py):c2.moveTo(px,py);}); c2.stroke(); }
+    c2.setLineDash([]);
+  }
+  function drawSpark(){
+    const W=spark.width,H=spark.height; sctx.clearRect(0,0,W,H);
+    const maxT=Math.max(60,hist.length), maxY=Math.max(20,...base,...hist), pad=8*dpr;
+    sctx.fillStyle='#B9C4D4'; sctx.font=(12*dpr)+'px "Bricolage Grotesque",sans-serif'; sctx.textAlign='left'; sctx.fillText('Zombies over time',pad,pad+9*dpr);
+    drawCurve(sctx,W,H,pad,[{d:hist,col:'#93D24B',lw:2.5*dpr}],maxT,maxY);
+  }
+  function drawEndChart(){
+    const c=$('endChart'), g=c.getContext('2d'), W=c.width, H=c.height; g.clearRect(0,0,W,H);
+    const maxT=Math.max(hist.length,base.length), maxY=Math.max(10,...hist,...base)*1.08, pad=44;
+    g.strokeStyle='#2A3D5E'; g.lineWidth=2; g.beginPath(); g.moveTo(pad,pad/2); g.lineTo(pad,H-pad); g.lineTo(W-pad/2,H-pad); g.stroke();
+    g.fillStyle='#B9C4D4'; g.font='30px "Bricolage Grotesque",sans-serif'; g.textAlign='left'; g.fillText('time',W-pad-62,H-6);
+    g.save(); g.translate(30,H/2+56); g.rotate(-Math.PI/2); g.fillText('zombies',0,0); g.restore();
+    drawCurve(g,W,H,pad,[{d:base,col:'#8E9BB0',lw:5,dash:[14,10]},{d:hist,col:'#93D24B',lw:8}],maxT,maxY);
+  }
+
+  // ---------- loop ----------
+  let last=performance.now(), acc=0;
+  function frame(now){
+    const dt=Math.min(0.1,(now-last)/1000); last=now;
+    if(mode==='attract'||mode==='play'){
+      let speed=1;
+      if(mode==='play'&&outAt>=0&&!E.over()){ const w=E.t-outAt-FF_WAIT; if(w>0){ speed=1+(FF-1)*Math.min(1,w/FF_RAMP); if(!ffShown){ffShown=true; say('Speeding up time ×'+FF+'…');} } }
+      acc+=dt*speed;
+      let guard=0;
+      while(acc>=DT&&guard++<12*FF){
+        acc-=DT;
+        if(p0i<0&&E.t>=P0_DELAY){p0i=E.seedZombie(p0.x,p0.y); if(mode==='play'){ if(left>0)say('Patient zero! Tap the map to drop vaccines'); else {outAt=E.t; say('Out of vaccines. Let’s see what happens…');$('skipBtn').hidden=false;} }}
+        E.step(DT);
+        if(mode==='play'&&(++hk%15===0))hist.push(E.counts()[1]);
+      }
+      if(guard>=12*FF)acc=0;
+      for(const g of rings)g.t+=dt; for(const f of floats)f.t+=dt;
+      if(mode==='play'&&E.over()){ if(!endAt){endAt=now; const c=E.counts(); $('skipBtn').hidden=true; say('Outbreak over! '+(c[0]+c[3])+' of '+P.N+' people survived');} if(now-endAt>2600){hist.push(0);endGame();} }
+      if(mode==='attract'&&E.over()){ attractWait+=dt; if(attractWait>2.5)startAttract(); }
+    }
+    if((mode==='end'||mode==='how')&&now-lastInput>60000)startAttract();
+    if(mode==='staff'&&now-lastInput>120000)startAttract();
+    drawWorld(now);
+    if(mode==='play'){const c=E.counts();$('nH').textContent=c[0]+c[3];$('nZ').textContent=c[1];drawSpark();}
+    requestAnimationFrame(frame);
+  }
+  fit(); startAttract(); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
