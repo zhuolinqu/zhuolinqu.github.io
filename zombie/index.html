@@ -103,7 +103,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--ink);outline-of
 .actions{grid-column:1/-1;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap}
 .challenge{font-size:clamp(16px,1.7vw,22px);font-weight:600}
 .ghost{font:inherit;font-weight:600;font-size:clamp(15px,1.5vw,19px);min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--muted);background:transparent;color:var(--ink);cursor:pointer}
-#fsBtn{position:absolute;right:clamp(10px,1.8vw,24px);top:clamp(10px,1.4vw,18px);font-size:14px;background:rgba(12,23,41,.85)}
+#fsBtn{position:absolute;z-index:20;right:clamp(10px,1.8vw,24px);top:clamp(10px,1.4vw,18px);font-size:14px;background:rgba(12,23,41,.85)}
 .staff{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;max-width:520px;width:100%;display:flex;flex-direction:column;gap:14px}
 .staff h2{margin:0;font-size:22px}
 .staff ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;max-height:50vh;overflow:auto}
@@ -469,7 +469,7 @@ function Engine(opt){
     const sr=spark.getBoundingClientRect(); spark.width=Math.round(sr.width*dpr); spark.height=Math.round(sr.height*dpr);
   }
   window.addEventListener('resize',fit);
-  document.addEventListener('fullscreenchange',()=>setTimeout(fit,60));
+  document.addEventListener('fullscreenchange',()=>{ if(typeof fsLabel==='function')fsLabel(); setTimeout(fit,60); });
 
   const icons=[]; for(let i=0;i<DOSES;i++){const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('aria-hidden','true');s.innerHTML='<use href="#i-syringe"/>';$('vaxes').appendChild(s);icons.push(s);}
   function setDoses(n){icons.forEach((s,i)=>s.classList.toggle('used',i>=n));}
@@ -518,7 +518,7 @@ function Engine(opt){
     mode='attract'; const t=makeTown((Math.random()*1e9)|0); E=t.e; p0={x:t.px,y:t.py}; p0i=-1; rings=[]; floats=[]; attractWait=0;
     showOnly('startOv'); hush(); $('skipBtn').hidden=true; setPlayChrome(false); renderBoard($('boardStart'));
   }
-  function showHow(){ mode='how'; showOnly('howOv'); $('goBtn').focus({preventScroll:true}); }
+  function showHow(){ mode='how'; showOnly('howOv'); $('fsBtn').style.visibility='hidden'; $('goBtn').focus({preventScroll:true}); }
   function startGame(){
     mode='play'; const d=dayTown(); const t=makeTown(d.seed); E=t.e; p0={x:d.px,y:d.py}; p0i=-1; hist=[]; rings=[]; floats=[]; endAt=0; hk=0;
     base=d.base; baseSurv=d.surv; left=DOSES; setDoses(left); savedId=null; outAt=-1; ffShown=false;
@@ -565,22 +565,34 @@ function Engine(opt){
   cv.addEventListener('pointerleave',()=>hover=null);
   $('playBtn').addEventListener('click',()=>{lastInput=performance.now();showHow();});
   $('goBtn').addEventListener('click',()=>{lastInput=performance.now();startGame();});
-  $('againBtn').addEventListener('click',()=>{lastInput=performance.now();startGame();});
+  $('againBtn').addEventListener('click',()=>{lastInput=performance.now();showHow();});
   $('skipBtn').addEventListener('click',()=>{lastInput=performance.now();if(mode==='play')skipToEnd();});
   $('saveIni').addEventListener('click',()=>{lastInput=performance.now();saveInitials();});
   $('ini').addEventListener('keydown',ev=>{lastInput=performance.now(); if(ev.key==='Enter')saveInitials();});
   $('ini').addEventListener('input',()=>{const v=$('ini').value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,4); if(v!==$('ini').value)$('ini').value=v;});
-  $('fsBtn').addEventListener('click',()=>{lastInput=performance.now(); if(document.fullscreenElement)document.exitFullscreen?.(); else document.documentElement.requestFullscreen?.();});
+  function fsEl(){return document.fullscreenElement||document.webkitFullscreenElement;}
+  function fsLabel(){ $('fsBtn').textContent=fsEl()?'Exit full screen':'Full screen'; }
+  function fsBlocked(){ const b=$('fsBtn'); b.textContent='Blocked here: press F11 (Mac: Ctrl+Cmd+F)'; setTimeout(fsLabel,5000); }
+  $('fsBtn').addEventListener('click',()=>{
+    lastInput=performance.now();
+    try{
+      if(fsEl()){ (document.exitFullscreen||document.webkitExitFullscreen).call(document); return; }
+      const el=document.documentElement, req=el.requestFullscreen||el.webkitRequestFullscreen;
+      if(!req||document.fullscreenEnabled===false){ fsBlocked(); return; }
+      const r=req.call(el); if(r&&r.catch) r.catch(fsBlocked);
+    }catch(e){ fsBlocked(); }
+  });
+  document.addEventListener('webkitfullscreenchange',()=>{fsLabel();setTimeout(fit,60);});
 
   // math screen
   let mathFrom='attract';
-  function openMath(){ lastInput=performance.now(); mathFrom=mode; mode='math'; hush(); $('skipBtn').hidden=true; setPlayChrome(false); showOnly('mathOv');
+  function openMath(){ lastInput=performance.now(); mathFrom=mode; mode='math'; hush(); $('skipBtn').hidden=true; setPlayChrome(false); $('fsBtn').style.visibility='hidden'; showOnly('mathOv');
     const pg=document.querySelector('.mathpage'); pg.classList.remove('anim'); void pg.offsetWidth; pg.classList.add('anim'); $('mathBack').focus({preventScroll:true}); }
   function closeMath(){ lastInput=performance.now(); if(mathFrom==='end'){ mode='end'; showOnly('endOv'); $('hud').style.visibility='visible'; } else startAttract(); }
   $('mathBtnEnd').addEventListener('click',openMath);
   $('mathBtnStart').addEventListener('click',openMath);
   $('mathBack').addEventListener('click',closeMath);
-  $('mathPlay').addEventListener('click',()=>{ lastInput=performance.now(); if(mathFrom==='end') startGame(); else showHow(); });
+  $('mathPlay').addEventListener('click',()=>{ lastInput=performance.now(); showHow(); });
   // staff: press and hold the title for 3 seconds
   function holdToOpen(el){ let tm=0;
     const go=()=>{clearTimeout(tm);tm=setTimeout(openStaff,3000);}; const stop=()=>clearTimeout(tm);
@@ -588,7 +600,7 @@ function Engine(opt){
     el.addEventListener('contextmenu',e=>e.preventDefault()); }
   holdToOpen($('title')); holdToOpen($('brand'));
   let staffPrev='startOv', clearArmed=false;
-  function openStaff(){ staffPrev=mode; if(mode==='play'){skipQuiet();} mode='staff'; clearArmed=false; hush(); $('skipBtn').hidden=true; setPlayChrome(false); $('clearAll').textContent='Clear all scores'; renderStaff(); showOnly('staffOv'); $('staffClose').focus({preventScroll:true}); }
+  function openStaff(){ staffPrev=mode; if(mode==='play'){skipQuiet();} mode='staff'; clearArmed=false; hush(); $('skipBtn').hidden=true; setPlayChrome(false); $('fsBtn').style.visibility='hidden'; $('clearAll').textContent='Clear all scores'; renderStaff(); showOnly('staffOv'); $('staffClose').focus({preventScroll:true}); }
   function skipQuiet(){ while(!E.over()&&E.t<300)E.step(DT); }
   function renderStaff(){ const ol=$('staffList'); ol.innerHTML=''; const b=loadBoard();
     if(!b.length){const li=document.createElement('li');li.textContent='No scores today.';ol.appendChild(li);}
